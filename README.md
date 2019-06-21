@@ -9,7 +9,7 @@ Hoping to make this somewhat pleasant to use eventually, and to model a few thin
 ## Current progress
 - Crude interfacing with [gmsh](http://gmsh.info/) for 3D mesh generation then parsed using [gmsh_interop](https://github.com/inducer/gmsh_interop/tree/master/gmsh_interop) (extracted from [meshpy](https://github.com/inducer/meshpy))
 - Generating VTK files from STL files (main.py)
-- Generating meshes from STP files
+- Generating meshes from STP files (gmsh_test.py)
 
 ![Current state](screenshots/meshing.png)
 
