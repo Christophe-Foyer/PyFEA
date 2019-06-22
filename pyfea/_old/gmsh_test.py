@@ -21,7 +21,7 @@ import numpy as np
 ### Generate the mesh
 
 #filename = 'ExampleWingGeom.stl'
-filename = 'testfiles/test.stp'
+filename = 'test.stp'
 output = 'output.msh'
 
 cmdline = ['gmsh ', filename, '-3', '-o', output, '-format', 'msh2']
@@ -80,6 +80,5 @@ mesh_info.elements = [x for x in mesh_info.elements if (len(x)==4)]
 
 ### Export to vtk
 #This is not happy, might need to recode this myself
-
-#mesh = build(mesh_info, options=Options(""))
-#mesh.write_vtk("test.vtk")
+mesh = build(mesh_info, options=Options(""))
+mesh.write_vtk("test.vtk")

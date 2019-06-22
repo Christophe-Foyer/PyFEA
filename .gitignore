@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Syncthing
+~syncthing~*
+
 # Distribution / packaging
 .Python
 build/
