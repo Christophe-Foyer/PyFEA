@@ -15,7 +15,7 @@ Hoping to make this somewhat pleasant to use eventually, and to model a few thin
 
 ## To Do
 - Interface with the [gmsh api](https://gitlab.onelab.info/gmsh/gmsh/blob/master/api/gmsh.py) directly (for better support)
-- Efficiently order data to support an irregular matrix (ideally with numpy compatibility)
+- Efficiently order data to support irregular/sparse matrices (ideally with numpy compatibility)
 - Create easy way to interact with elements and set up multi-sim problems
 
 ______
