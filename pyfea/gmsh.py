@@ -67,6 +67,40 @@ class EntityMesh:
         from plotting import scatter3d
         scatter3d(points)
         
+class gmsh_interface:
+    
+    points=None
+    elements=None
+    
+    def __init__(self, filename='test.stp'):
+        gmsh.initialize()
+        gmsh.option.setNumber("General.Terminal", 1)
+        
+        gmsh.model.add(filename)
+    
+    def __enter__(self):
+        pass
+        
+    def gen_mesh(self):
+        #TODO: add options to control how the mesh is generated
+        gmsh.merge(filename)
+        gmsh.model.geo.synchronize()
+        gmsh.model.mesh.generate(3)
+        
+    def extract_geometry(self):
+        #point cloud
+        _, points, _ = gmsh.model.mesh.getNodes()
+        self.points = points.reshape(( int(len(points)/3),3))
+        
+        elements = gmsh.model.mesh.getElements()
+        elements = elements[2][list(elements[0]).index(4)]
+        self.elements = elements.reshape(int(len(elements)/4),4)-1
+        
+    def output_mesh(self):
+        gmsh.write('output.msh')
+        
+    def __exit__(self, **kwargs):
+        gmsh.finalize()
 
 if __name__ == '__main__':
         
@@ -75,32 +109,16 @@ if __name__ == '__main__':
 
     filename = '../testfiles/test.stp'
     
-    gmsh.initialize()
-    gmsh.option.setNumber("General.Terminal", 1)
-    
-    gmsh.model.add("test")
-    
-    #TODO: add options to control how the mesh is generated
-    gmsh.merge(filename)
-    gmsh.model.geo.synchronize()
-    gmsh.model.mesh.generate(3)
-#    gmsh.model.mesh.refine()
-    
-    #point cloud
-    _, points, _ = gmsh.model.mesh.getNodes()
-    points = points.reshape(( int(len(points)/3),3))
-    
-    elements = gmsh.model.mesh.getElements()
-    elements = elements[2][list(elements[0]).index(4)]
-    elements = elements.reshape(int(len(elements)/4),4)-1
+    geo = gmsh_interface()
+    geo.gen_mesh()
+    geo.extract_geometry()
+    geo.output_mesh()
     
     #generate python object
     em = EntityMesh()
-    em.add_geometry(points, elements)
+    em.add_geometry(geo.points, geo.elements)
     em.export_vtk('out.vtk')
     
-    #output file and close gmsh
-    gmsh.write('output.msh')
-    gmsh.finalize()
+    geo.__exit__()
     
     em.plot_vtk()
