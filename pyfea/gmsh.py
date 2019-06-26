@@ -2,6 +2,8 @@ import onelab.lib.gmsh as gmsh
 
 import numpy as np
 
+import pyvista as pv
+
 #import logging
 #logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO, datefmt='%I:%M:%S')
 
@@ -46,13 +48,25 @@ class EntityMesh:
         assert elements, 'please generate elements first eg. "mesh.gen_elements()"'
         #now find adjacent elements
             
+    vtk_filename = None
     def export_vtk(self, filename):
         import meshio
         meshio.write_points_cells(filename, self.nodes, {'tetra': self.tets})
- 
+        self.vtk_filename = filename
+    
+    #pyvista
+    def plot_vtk(self, file=None):
+        if not file: file = self.vtk_filename
+        data = pv.read(file)
+        plotter = pv.Plotter()  # instantiate the plotter
+        plotter.add_mesh(data)    # add a dataset to the scene
+        plotter.show(auto_close=False)     # show the rendering window
+        
+    #Matplotlib
     def show_nodes(self):
         from plotting import scatter3d
         scatter3d(points)
+        
 
 if __name__ == '__main__':
         
@@ -70,7 +84,7 @@ if __name__ == '__main__':
     gmsh.merge(filename)
     gmsh.model.geo.synchronize()
     gmsh.model.mesh.generate(3)
-    #gmsh.model.mesh.refine()
+#    gmsh.model.mesh.refine()
     
     #point cloud
     _, points, _ = gmsh.model.mesh.getNodes()
@@ -88,3 +102,5 @@ if __name__ == '__main__':
     #output file and close gmsh
     gmsh.write('output.msh')
     gmsh.finalize()
+    
+    em.plot_vtk()
