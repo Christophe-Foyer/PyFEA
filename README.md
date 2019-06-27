@@ -2,7 +2,7 @@
 
 Christophe Foyer 2019 | [www.cfoyer.com](https://www.cfoyer.com)
 
-__Note:__ This is still very much a Work In Progress and will evolve significantly over the course of the next few months
+__Note:__ This is still very much a work in progress and will evolve significantly over the course of the next few months
 
 ## About
 A start to setting up a coherent library for FEA using python. 
