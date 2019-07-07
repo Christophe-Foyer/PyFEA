@@ -1,4 +1,4 @@
-This is the binary Software Development Kit (SDK) for Gmsh 4.3.0:
+This is the binary Software Development Kit (SDK) for Gmsh 4.4.0:
 
   * Operating system: Windows64-sdk (CYGWIN)
   * C++ compiler: /usr/bin/mingw32-g++.exe
