@@ -78,14 +78,12 @@ if __name__ == '__main__':
     #much of this should be integrated eventually
     print("GMSH_API_VERSION: v{}".format(gmsh.GMSH_API_VERSION))
 
-    filename = 'testfiles/Peace.stl'
+    filename = 'testfiles/airplane_wings.stl'
     
 #    with gmsh_interface() as geo:
     geo = gmsh_interface()
-    geo.set_options(1,1.5)
+    geo.set_options(1,0.5)
     geo.gen_mesh_stl(filename)
-    geo.extract_geometry()
-    
     geo.extract_geometry()
     
     #generate python object

@@ -101,9 +101,5 @@ ap = vlm2(
 ap.run()
 ap.draw()
 
-# Answer you should get: (XFLR5)
-# CL = 0.797
-# CDi = 0.017
-# CL/CDi = 47.211
-# Cm = -0.184
+
 

@@ -9,14 +9,40 @@ class Tetrahedron:
     
     points = np.array([None]*4)
     pointcloud = None
+    neighbors = None
+    entity_mesh = None
     
-    def __init__(self, points, pointcloud):
+    def __init__(self, points, pointcloud, entity_mesh=None):
         assert len(points)==4, "Point array must be of length 4"
         assert max(points)<len(pointcloud), "Points must be within pointcloud length"
-        self.points = points
+        self.points = np.array(points)
+        self.entity_mesh = entity_mesh
         
     def get_coords(self):
-        pass
+        assert self.points
+        assert self.pointcloud
+        return np.array(self.pointcloud)[self.points]
+        
+    def get_cog(self):
+        return np.mean(self.get_coords())
+    
+    def get_neighbors(self, tets=None):
+        """
+        Find neighboring tets
+        """
+        
+        #make sure the tet has access to the list of possible neighbors
+        assert tets or \
+               (isinstance(self.entity_mesh, EntityMesh)
+                and self.entity_mesh.tets), \
+               'Tetrahedron needs access to tets list (via argument or Tetrahedron.entity_mesh)'
+               
+        #vectorized neighbor finder
+        arr = np.concatenate((np.tile(self.points, (len(tets),1)),tets),axis=1)
+        check = np.apply_along_axis(lambda x: len(set(x))==5, 1, arr)
+        self.neighbors = np.nonzero(check)
+        
+        return self.neighbors
     
 class EntityMesh:
     
@@ -30,7 +56,7 @@ class EntityMesh:
         
     def gen_elements(self):
         for row in self.tets:
-            tet = Tetrahedron(row,self.nodes)
+            tet = Tetrahedron(row, self.nodes, self)
             self.elements.append(tet)
             
     def add_geometry(self, nodes, tets, autogen=True):
@@ -42,9 +68,14 @@ class EntityMesh:
         if autogen:
             self.gen_elements()
             
-    def get_adjacent(self):
+    def get_adjacent(self): #WIP
         assert self.elements, 'please generate elements first eg. "mesh.gen_elements()"'
-        #now find adjacent elements
+        
+        #TODO: vectorize
+        adjacent = []
+        for tet in self.elements:
+            adjacent.append(tet.get_neighbors(self.tets))
+        self.adjacent = adjacent
             
     vtk_filename = None
     def export_vtk(self, filename):
@@ -62,3 +93,17 @@ class EntityMesh:
     #Matplotlib
     def show_nodes(self):
         scatter3d(self.points)
+        
+    def merge(self, entities=[], include_self=True, autogen=True):
+        assert type(entities)==list
+        assert all([isinstance(x, EntityMesh) for x in entities])
+        
+        #add itself to the list
+        if include_self: entities.append(self)
+        
+        #TODO: should remesh with gmsh instead of just appending
+        self.nodes = np.vstack([x.nodes for x in entities])
+        self.tets = np.vstack([x.tets for x in entities])
+        
+        if autogen:
+            self.gen_elements()
