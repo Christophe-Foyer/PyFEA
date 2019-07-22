@@ -1,9 +1,9 @@
 from aerosandbox.geometry import Airplane
-from pyfea.fea.geometry import EntityMesh
-from pyfea.interfaces.gmsh import gmsh_interface
+from pyfea.fea.geometry import EntityMesh, SurfaceMesh
+from pyfea.interfaces.meshing import tetgen_interface as mesh_engine
 import autograd.numpy as np
-from stl import mesh #numpy-stl
-from scipy.spatial import Delaunay
+#from stl import mesh #numpy-stl
+#from scipy.spatial import Delaunay
 
 class Airplane(Airplane):
     
@@ -59,6 +59,9 @@ class Airplane(Airplane):
         
         #get points lists 
         points = [clean_upper_lower(x) for x in wing.xsecs]
+        
+        #TODO: rotate xsecs to line up with progression (esp important for vstab)
+        
         points_flt = np.vstack(points)
         
         #generate triangles
@@ -69,77 +72,61 @@ class Airplane(Airplane):
             if i > 0: offset = sum([len(x) for x in points[:i]])
             else: offset = 0
             offset2 = sum([len(x) for x in points[:i+1]])
-            for j in range(len(points[i])-1):
-                tri0.append([offset+j, offset2+j, offset2+j+1])
+            l = len(points[i])
+            for j in range(l-1):
+                tri0.append([offset+j, offset2+j+1, offset2+j])
                 tri0.append([offset+j, offset+j+1, offset2+j+1])
+            tri0.append([offset, offset2+l-1, offset2+l-1]) #Offset, offset+l-1, offset2+l-1
+            tri0.append([offset, offset2, offset+l-1]) #Offset, offset2, offset2+l-1
         tri0 = np.array(tri0)
         
-        #now close the ends (this is imprefect rn)
+        #now close the ends (this is imprefect rn, but better)
         #TODO: fix end meshing
-        tri1 = []
-        for i in range(1,len(points[-1][:,:2])-1):
-            tri1.append([0, i, i+1])
-        tri1 = np.array(tri1)
+        if not wing.symmetric:
+            tri1 = []
+            for i in range(len(points[0][:,:2])):
+                if i==len(points[0])/2: continue
+                if i ==len(points[0])/2-1: continue
+                p2 = i+1
+                if p2 == len(points[0]): 
+                    p2 = 0
+                tri1.append([int(len(points[0])/2), p2, i])
+            tri1 = np.array(tri1)
         
         tri2 = []
-        for i in range(1,len(points[-1][:,:2])-1):
-            tri2.append([0, i, i+1])
+        for i in range(len(points[-1][:,:2])):
+            if i==len(points[-1])/2: continue
+            if i ==len(points[-1])/2-1: continue
+            p2 = i+1
+            if p2 == len(points[-1]): 
+                p2 = 0
+            tri2.append([int(len(points[-1])/2), p2, i])
+        
+#        import matplotlib.pyplot as plt
+#        plt.triplot(points[-1][:,0], points[-1][:,1], tri2)
+#        plt.plot(points[-1][:,0], points[-1][:,1], 'o')
+#        plt.show()
+            
         #correct index offset
         tri2 = np.array(tri2) + len(points_flt) - len(points[-1][:,:2])
         
-        tri = np.vstack((tri0,tri1,tri2))
+        if not wing.symmetric:
+            tri = np.vstack((tri0,tri1,tri2))
+        else:
+            tri = np.vstack((tri0,tri2))
+        
+#        del points
         
         #if symetric make symetric
-        
-        # for testing
-        from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-        import matplotlib.pyplot as plt
-        
-        points_3d = points_flt[tri]
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        ax.add_collection3d(Poly3DCollection(points_3d, linewidths=1))
-        
-        plt.show()
+        if wing.symmetric:
+            tri = np.vstack((tri,tri+len(points_flt)))
+            points_flt = np.vstack((points_flt, points_flt*np.array([-1,1,1])))
         
         #generate mesh
-        em = self.make_entitymesh(tri, points_flt)
-        print('WARNING: entitymesh is currently empty (WIP)')
-        
-        return em
-        
-    @staticmethod
-    def make_entitymesh(tri, points):
-#        data = np.zeros(len(tri), dtype=mesh.Mesh.dtype)
-#        
-#        your_mesh = mesh.Mesh(data, remove_empty_areas=False)
-        
-        my_mesh = mesh.Mesh(np.zeros(tri.shape[0], dtype=mesh.Mesh.dtype))
-        for i, f in enumerate(tri):
-            for j in range(3):
-                my_mesh.vectors[i][j] = points[f[j],:]
-        
-        #create temp STL
-        #TODO: use special tempfile tool
-        tempfile = r'airplane_wings.temp.stl'
-        my_mesh.save(tempfile)
-        
-#        #use gmsh to run STL tet meshing
-#        geo = gmsh_interface()
-#        #set element size
-#        geo.set_options(1,1.5)
-#        
-#        #read temp file
-#        try:
-#            geo.gen_mesh_stl(tempfile)
-#        except ValueError:
-#            raise ValueError('Merge failed, is the geometry defined? Please check input file.')
-#        geo.extract_geometry()
-        
-        #generate entitymesh
         em = EntityMesh()
-#        em.add_geometry(geo.points, geo.elements)
-        #TODO: add surface mesh
+        sm = SurfaceMesh(points = points_flt, tri = tri)
+        em.set_surface_mesh(sm, autogen=False)
+        
         return em
     
 if __name__=='__main__':
@@ -228,4 +215,14 @@ if __name__=='__main__':
         ]
     )
     
-    glider.gen_wing_mesh(glider.wings[0])
+    print('''WIP, gmsh doeesn't like my STLs :(''')
+    glider.generate_mesh()
+    
+    #output main wing
+    sm = glider.wing_entities[0].surface_mesh
+    sm.gen_stl('wing_mesh.tmp.stl')
+    
+    sm.plot()
+    
+    geo = mesh_engine()
+    geo.gen_mesh_from_surf(sm)

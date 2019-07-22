@@ -13,7 +13,7 @@ Hoping to make this somewhat pleasant to use eventually, and to model a few thin
 - Generating meshes from STP files
 - Generating meshes from STL files
 
-![Current state](screenshots/meshing.png)
+![Current state](project_files/screenshots/meshing.png)
 
 ## To Do
 - Efficiently order data to support irregular/sparse matrices (ideally with numpy compatibility)

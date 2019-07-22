@@ -1,10 +1,56 @@
 import onelab.lib.gmsh as gmsh
-from pyfea.fea.geometry import EntityMesh
-
-import math
+import numpy as np
+import pyvista as pv
+import meshio
+from pyfea.tools.plotting import scatter3d
 
 #import logging
 #logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO, datefmt='%I:%M:%S')
+        
+class EntityMesh:
+    
+    nodes = None
+    tets = None
+    elements = []
+    adjacent = []
+    
+    def __init__(self):
+        pass
+        
+    def gen_elements(self):
+        for row in self.tets:
+            tet = Tetrahedron(row,self.nodes)
+            self.elements.append(tet)
+            
+    def add_geometry(self, nodes, tets, autogen=True):
+        assert np.array(nodes).shape[1] == 3, "nodes must be a numpy array with dims (*,3)"
+        assert np.array(tets).shape[1] == 4, "tets must be a numpy array with dims (*,4)"
+        self.nodes = nodes
+        self.tets = tets
+        
+        if autogen:
+            self.gen_elements()
+            
+    def get_adjacent(self):
+        assert self.elements, 'please generate elements first eg. "mesh.gen_elements()"'
+        #now find adjacent elements
+            
+    vtk_filename = None
+    def export_vtk(self, filename):
+        meshio.write_points_cells(filename, self.nodes, {'tetra': self.tets})
+        self.vtk_filename = filename
+    
+    #pyvista
+    def plot_vtk(self, file=None):
+        if not file: file = self.vtk_filename
+        data = pv.read(file)
+        plotter = pv.Plotter()  # instantiate the plotter
+        plotter.add_mesh(data)    # add a dataset to the scene
+        plotter.show(auto_close=False)     # show the rendering window
+        
+    #Matplotlib
+    def show_nodes(self):
+        scatter3d(self.points)
         
 class gmsh_interface:
     
@@ -13,50 +59,18 @@ class gmsh_interface:
     
     def __init__(self, name='test'):
         gmsh.initialize()
+        gmsh.option.setNumber("General.Terminal", 1)
         
         gmsh.model.add(name)
     
     def __enter__(self):
-        return self
+        pass
         
     def gen_mesh(self, filename):
         #TODO: add options to control how the mesh is generated
         gmsh.merge(filename)
-#        gmsh.model.geo.addVolume([-1])
         gmsh.model.geo.synchronize()
         gmsh.model.mesh.generate(3)
-        
-    def refine(self):
-        """
-        TODO: Seems to throw memory access violation errors
-        """
-        pass
-#        gmsh.model.mesh.refine()
-        
-    def set_options(self, minlength=0.75, maxlength=0.75):
-        gmsh.option.setNumber("General.Terminal", 1)
-        gmsh.option.setNumber("Mesh.Algorithm", 6);
-        gmsh.option.setNumber("Mesh.CharacteristicLengthMin", minlength);
-        gmsh.option.setNumber("Mesh.CharacteristicLengthMax", maxlength);
-        
-    def gen_mesh_stl(self, filename):
-        gmsh.merge(filename)
-        gmsh.model.mesh.classifySurfaces(40*math.pi/180., True, True)
-
-        # create a geometry (through reparametrization) for all discrete curves and
-        # discrete surfaces
-        gmsh.model.mesh.createGeometry()
-        
-        # add a volume
-        s = gmsh.model.getEntities(2)
-        l = gmsh.model.geo.addSurfaceLoop([s[i][1] for i in range(len(s))])
-        gmsh.model.geo.addVolume([l])
-        
-        gmsh.model.geo.synchronize()
-        gmsh.model.mesh.generate(3)
-
-    def display_mesh(self):
-        gmsh.fltk.run()
         
     def extract_geometry(self):
         #point cloud
@@ -70,7 +84,7 @@ class gmsh_interface:
     def output_mesh(self, filename='output.msh'):
         gmsh.write(filename)
         
-    def __exit__(self, *args):
+    def __exit__(self, **kwargs):
         gmsh.finalize()
 
 if __name__ == '__main__':
@@ -78,19 +92,18 @@ if __name__ == '__main__':
     #much of this should be integrated eventually
     print("GMSH_API_VERSION: v{}".format(gmsh.GMSH_API_VERSION))
 
-    filename = 'testfiles/airplane_wings.stl'
+    filename = '../../testfiles/test.stp'
     
-#    with gmsh_interface() as geo:
     geo = gmsh_interface()
-    geo.set_options(1,0.5)
-    geo.gen_mesh_stl(filename)
+    geo.gen_mesh(filename)
     geo.extract_geometry()
+    geo.output_mesh()
     
     #generate python object
     em = EntityMesh()
     em.add_geometry(geo.points, geo.elements)
     em.export_vtk('out.vtk')
     
-    em.plot_vtk()
-    
     geo.__exit__()
+    
+    em.plot_vtk()

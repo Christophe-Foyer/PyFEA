@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+#WIP
+print('WIP!!!')
+input()
 
 from aerosandbox import Airplane, OperatingPoint, WingXSec, Wing, Airfoil, vlm2
-#from pyfea.interfaces.gmsh import gmsh_interface
+from pyfea.interfaces.gmsh import gmsh_interface
 from pyfea.fea.geometry import EntityMesh
 
 glider = Airplane(
@@ -101,9 +104,5 @@ ap = vlm2(
 ap.run()
 ap.draw()
 
-# Answer you should get: (XFLR5)
-# CL = 0.797
-# CDi = 0.017
-# CL/CDi = 47.211
-# Cm = -0.184
+
 
