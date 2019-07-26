@@ -1,3 +1,1 @@
-
-
 def rotate_3d(basepoint, alpha, beta):

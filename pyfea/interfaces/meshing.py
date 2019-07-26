@@ -34,11 +34,11 @@ class gmsh_interface:
         gmsh.model.geo.synchronize()
         gmsh.model.mesh.generate(3)
         
-    def refine(self):
-        """
-        TODO: Seems to throw memory access violation errors
-        """
-        pass
+#    def refine(self):
+#        """
+#        TODO: Seems to throw memory access violation errors
+#        """
+#        pass
 #        gmsh.model.mesh.refine()
         
     def set_element_size(self, minlength=0.75, maxlength=0.75):
@@ -159,27 +159,28 @@ class tetgen_interface():
 if __name__ == '__main__':
 
 #    filename = 'testfiles/airplane_wings.stl'
-    filename = 'testfiles/ExampleWingGeom.stl' 
+    filename = 'testfiles/ExampleWingGeom.stl'
+#    filename = 'testfiles/scramjet/Air.stl' 
        
-#    #much of this should be integrated eventually
+    #much of this should be integrated eventually
 #    print("GMSH_API_VERSION: v{}".format(gmsh.GMSH_API_VERSION))
-#   
-##    with gmsh_interface() as geo:
-#    geo = gmsh_interface()
-#    geo.set_element_size(1,1.5)
-#    geo.gen_mesh_from_surf(filename)
-#    geo.extract_geometry()
-#    
-#    #generate python object
-#    em = EntityMesh()
-#    em.add_geometry(geo.points, geo.elements)
-#    em.export_vtk('out.vtk')
-#    
-#    em.plot_vtk()
-#    
-#    geo.__exit__()
+   
+#    with gmsh_interface() as geo:
+    geo = gmsh_interface()
+    geo.set_element_size(0.25,0.75)
+    geo.gen_mesh_from_surf(filename)
+    geo.extract_geometry()
     
-    sm = SurfaceMesh(filename = filename)
+    #generate python object
+    em = EntityMesh()
+    em.add_geometry(geo.points, geo.elements)
+    em.export_vtk('out.vtk')
     
-    geo = tetgen_interface()
-    grid = geo.gen_mesh_from_surf(sm.gen_stl())
+    em.plot_vtk()
+    
+    geo.__exit__()
+    
+#    sm = SurfaceMesh(filename = filename)
+#    
+#    geo = tetgen_interface()
+#    grid = geo.gen_mesh_from_surf(sm.gen_stl())
