@@ -25,7 +25,7 @@ class gmsh_interface:
     def __enter__(self):
         return self
         
-    def gen_mesh(self, filename):
+    def gen_mesh_from_cad(self, filename):
         gmsh = self.gmsh
         
         #TODO: add options to control how the mesh is generated
@@ -176,7 +176,7 @@ if __name__ == '__main__':
     em.add_geometry(geo.points, geo.elements)
     em.export_vtk('out.vtk')
     
-    em.plot_vtk()
+    em.plot()
     
     geo.__exit__()
     

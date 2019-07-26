@@ -64,7 +64,8 @@ class EntityMesh:
     surface_mesh = None
     
     def __init__(self, surface_mesh=None):
-        assert isinstance(surface_mesh, SurfaceMesh)
+        assert isinstance(surface_mesh, SurfaceMesh) or surface_mesh==None, \
+            Exception('surface_mesh is of type: ' + str(type(surface_mesh)))
         if surface_mesh:
             self.surface_mesh = surface_mesh
         
@@ -105,6 +106,7 @@ class EntityMesh:
     def export_vtk(self, filename):
         meshio.write_points_cells(filename, self.nodes, {'tetra': self.tets})
         self.vtk_filename = filename
+        return filename
         
     #TODO: Fix this
     def merge(self, entities=[], include_self=True, autogen=True):
@@ -128,7 +130,8 @@ class EntityMesh:
                            tempfile=None,
                            surface_mesh=None,
                            autogen=True,
-                           meshing='auto'):
+                           meshing='auto',
+                           element_size = (0.0,10.0**22)):
         """
         creates an entitymesh from a surface mesh (STL-like)
         also creates an STL temp file (could be useful later on)
@@ -181,7 +184,10 @@ class EntityMesh:
             try:
                 with engine() as geo:
                     #set element size
-#                    geo.set_element_size(1,1.5)
+                    if any([x==None for x in element_size]):
+                        geo.set_element_size()
+                    else:
+                        geo.set_element_size(element_size[0],element_size[1])
                 
                     #read temp file
                     try:
@@ -198,7 +204,7 @@ class EntityMesh:
             self.gen_elements()
         
     #pyvista
-    def plot_vtk(self, filename=None):
+    def plot(self, filename=None, style='wireframe'):
         #TODO: fix need for VTK file
         
         if not filename and self.vtk_filename: 
@@ -208,14 +214,10 @@ class EntityMesh:
             print(filename)
             self.export_vtk(filename)
         
-        if not filename: 
-            print('No vtk file generated, skipping vtk plotting')
-            print('Run "EntityMesh.export_vtk" first')
-            return
         data = pv.read(filename)
         plotter = pv.BackgroundPlotter()
 #        plotter = pv.Plotter()  # instantiate the plotter
-        plotter.add_mesh(data)    # add a dataset to the scene
+        plotter.add_mesh(data, style=style)    # add a dataset to the scene
         plotter.show()     # show the rendering window
         
     #Matplotlib
@@ -302,6 +304,7 @@ class Part(EntityMesh):
     """
     
     material = None
+    name = None
     
     def __init__(self, material = None, **kwargs):
         super(Part, self).__init__(**kwargs)
@@ -316,15 +319,22 @@ class Assembly(EntityMesh):
     parts = []
     tetpart = None
     
+    #sourcefile for existing assembly
+    source_file = None
+    
     def __init__(self, parts, **kwargs):
         
         assert 'surface_mesh' not in kwargs.keys(), \
             'incorrect argument: surface_mesh'
         
         #pass the arguments
-        super(Part, self).__init__(**kwargs)
+        super(Assembly, self).__init__(**kwargs)
         
-        parts = parts
+        self.parts = parts
+        
+#    def gen_elements(self):
+#        for part in parts:
+#            self.points
         
     def __getattribute__(self, name):
         
@@ -340,18 +350,73 @@ class Assembly(EntityMesh):
         print('WIP')
         
     #this will need updating
-#    def plot(self, normals = False):
+    def plot(self, normals = False, style='wireframe'):
+        
+        plotter = pv.BackgroundPlotter()
+        
+        for part in self.parts:
+            tmp = tempfile.TemporaryFile(suffix='.vtk').name
+            part.export_vtk(tmp)
+            
+            data = pv.read(tmp)            
+            plotter.add_mesh(data, style=style)
+            
+        plotter.show()
+        
+    def gen_from_source(self, filename, element_size = None):
+        
+        #only works with gmsh not tetgen
+        from pyfea.interfaces.meshing import gmsh_interface
+        
+        self.source_file = filename
+        
+        with gmsh_interface() as geo:
+            geo.set_element_size(5,20)
+            geo.gen_mesh_from_surf(filename)
+            geo.extract_geometry()
+            
+            #going to have to iterate through parts
+            part = Part()
+            part.add_geometry(geo.points, geo.elements)
+            self.parts.append(part)
+        
+            
     
 if __name__=='__main__':
     
-    filenames = ['../../testfiles/scramjet/Air.stl']
+    filenames = [
+                 '../../testfiles/scramjet/Air.stl',
+                 '../../testfiles/scramjet/Air2.stl',
+                 '../../testfiles/scramjet/Body.stl',
+                 '../../testfiles/scramjet/Fuel outlet.stl'
+                 ]
     
     surfaces = []
     parts = []
     for filename in filenames:
+        print('Generating mesh for file: ' + filename)
+        
         sm = SurfaceMesh(filename = filename)
         surfaces.append(sm)
         em = Part(surface_mesh=sm)
         parts.append(em)
-        em.gen_mesh_from_surf(meshing='gmsh')
+        em.gen_mesh_from_surf(meshing='gmsh',
+                              element_size=(0.5,20))
+        
+    assembly = Assembly(parts)
+    assembly.plot()
+    
+#essentially here for extra testing
+if False:
+    filename = '../../testfiles/scramjet/Scramjet study v6.STEP'
+    
+    from pyfea.interfaces.meshing import gmsh_interface
+    geo = gmsh_interface()
+    geo.set_element_size(5,20)
+    geo.gen_mesh_from_surf(filename)
+    geo.extract_geometry()
+    
+    #going to have to iterate through parts
+#    part = Part()
+#    part.add_geometry(geo.points, geo.elements)
         
