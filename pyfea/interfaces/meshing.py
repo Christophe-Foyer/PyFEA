@@ -161,12 +161,9 @@ class tetgen_interface(interface_base):
 ##        plotter.camera_position = cpos
 #        plotter.show()
         
-#        return grid
-        
         self.points = grid.points
-        self.elements = grid.cells.reshape(
-                grid.n_cells, int(grid.cells.shape[0]/grid.n_cells)
-                                           )[:,1:5]
+        self.elements = grid.cells.reshape(-1,11)[:,1:5]
+#        return grid
         return self.points, self.elements
 
 if __name__ == '__main__':
@@ -180,7 +177,7 @@ if __name__ == '__main__':
        
     #much of this should be integrated eventually
 #    print("GMSH_API_VERSION: v{}".format(gmsh.GMSH_API_VERSION))
-   
+    
 #    with gmsh_interface() as geo:
     if meshing == 'gmsh':
         geo = gmsh_interface()
@@ -202,7 +199,7 @@ if __name__ == '__main__':
         sm = SurfaceMesh(filename = filename)
         
         geo = tetgen_interface()
-        geo.gen_mesh_from_surf(sm.gen_stl())
+        grid = geo.gen_mesh_from_surf(sm.gen_stl())
         
         em = EntityMesh()
         em.add_geometry(geo.points, geo.elements)

@@ -55,6 +55,16 @@ class Tetrahedron:
         
         return self.neighbors
     
+    def refine_mesh(self, point=None, function=(lambda x: np.sqrt(x))):
+        """
+        Splits the tetrahedron x-times with a specified function for spacing
+        around the specified point.
+        """
+        
+        pass
+    
+        return
+    
 class EntityMesh:
     
     nodes = None
@@ -155,7 +165,9 @@ class EntityMesh:
         
         #create temp STL
         #TODO: use special tempfile tool
-        if not tempfile: tempfile = r'geo.temp.stl'
+        if not tempfile: 
+            import tempfile
+            tempfile = tempfile.TemporaryFile(suffix='.stl').name
         surface_mesh.gen_stl(tempfile)
         
         #automatically find new interfaces for meshing
@@ -259,7 +271,7 @@ class SurfaceMesh:
 #        os.remove(file)
         
     def plot(self, normals = False):
-        # for testing
+        # for testing could 100% be done with pyvista
         from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
         import matplotlib.pyplot as plt
         
@@ -358,18 +370,31 @@ class Assembly(EntityMesh):
         print('WIP')
         
     #this will need updating
-    def plot(self, normals = False, style='wireframe'):
+    def plot(self, **kwargs):
         
-        plotter = pv.BackgroundPlotter()
+#        if 'normals' in kwargs.keys():
+#            normals = kwargs.pop('normals')
+#        else: normals = False
+        if 'style' in kwargs.keys():
+            style = kwargs.pop('style')
+        else: style = 'wireframe'
+        if 'plotter' in kwargs.keys():
+            plotter = kwargs.pop('plotter')
+        else: plotter = None
+        
+        if plotter==None:
+            plotter = pv.BackgroundPlotter()
         
         for part in self.parts:
             tmp = tempfile.TemporaryFile(suffix='.vtk').name
             part.export_vtk(tmp)
             
             data = pv.read(tmp)            
-            plotter.add_mesh(data, style=style)
+            plotter.add_mesh(data, style=style, **kwargs)
             
         plotter.show()
+        
+        return plotter
         
     def gen_from_source(self, filename, element_size = None):
         
@@ -413,7 +438,7 @@ if __name__=='__main__':
     parts[0].merge(parts.pop(1))
 #    for part in parts: part.gen_elements()
     assembly = Assembly(parts)
-    assembly.plot()
+    assembly.plot(style=None)
     
 #essentially here for extra testing
 if False:
