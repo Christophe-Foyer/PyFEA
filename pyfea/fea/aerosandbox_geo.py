@@ -1,3 +1,7 @@
+import importlib
+if importlib.util.find_spec("aerosandbox") is None:
+    raise ImportError('This module depends on AeroSandbox. Please install using "pip install AeroSandbox" or from the git repository: https://github.com/peterdsharpe/AeroSandbox')
+
 from aerosandbox.geometry import Airplane
 from pyfea.fea.geometry import EntityMesh, SurfaceMesh
 from pyfea.interfaces.meshing import tetgen_interface as mesh_engine

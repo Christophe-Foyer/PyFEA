@@ -6,11 +6,19 @@ import pyvista as pv
 
 #import logging
 #logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO, datefmt='%I:%M:%S')
-        
-class gmsh_interface:
+     
+class interface_base:
     
     points=None
     elements=None
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, *args):
+        pass
+   
+class gmsh_interface(interface_base):
     
     def __init__(self, name='test'):
         import onelab.lib.gmsh as gmsh
@@ -21,9 +29,6 @@ class gmsh_interface:
         gmsh.model.add(name)
         
         gmsh.option.setNumber("General.Terminal", 1)
-    
-    def __enter__(self):
-        return self
         
     def gen_mesh_from_cad(self, filename):
         gmsh = self.gmsh
@@ -67,6 +72,8 @@ class gmsh_interface:
         
         gmsh.model.geo.synchronize()
         gmsh.model.mesh.generate(3)
+        
+        return self.extract_geometry()
 
     def display_mesh(self):
         gmsh = self.gmsh
@@ -96,8 +103,8 @@ class gmsh_interface:
         
         gmsh.finalize()
         
-class tetgen_interface():
-
+class tetgen_interface(interface_base):
+    
     def set_element_size(self, minlength=0.75, maxlength=0.75):
         print('Currently not supported, WIP')
         
@@ -143,44 +150,62 @@ class tetgen_interface():
         grid = tet.grid
         
         # plot half
-        mask = np.logical_or(grid.points[:, 0] < 0, grid.points[:, 0] > 4)
-        half = grid.extract_selection_points(mask)
+#        mask = np.logical_or(grid.points[:, 0] < 0, grid.points[:, 0] > 4)
+#        half = grid.extract_selection_points(mask)
+#        
+#        ###############################################################################
+#        
+#        plotter = pv.BackgroundPlotter()
+#        plotter.add_mesh(half, color='w', show_edges=True)
+#        plotter.add_mesh(grid, color='r', style='wireframe', opacity=0.2)
+##        plotter.camera_position = cpos
+#        plotter.show()
         
-        ###############################################################################
+#        return grid
         
-        plotter = pv.Plotter()
-        plotter.add_mesh(half, color='w', show_edges=True)
-        plotter.add_mesh(grid, color='r', style='wireframe', opacity=0.2)
-#        plotter.camera_position = cpos
-        plotter.show()
-        
-        return grid
+        self.points = grid.points
+        self.elements = grid.cells.reshape(
+                grid.n_cells, int(grid.cells.shape[0]/grid.n_cells)
+                                           )[:,1:5]
+        return self.points, self.elements
 
 if __name__ == '__main__':
 
 #    filename = 'testfiles/airplane_wings.stl'
-    filename = 'testfiles/ExampleWingGeom.stl'
-#    filename = 'testfiles/scramjet/Air.stl' 
+#    filename = 'testfiles/ExampleWingGeom.stl'
+    filename = 'testfiles/scramjet/Air.stl' 
+#    filename = 'testfiles/scramjet/Scramjet study v7.stl'
+    
+    meshing = 'tetgen'
        
     #much of this should be integrated eventually
 #    print("GMSH_API_VERSION: v{}".format(gmsh.GMSH_API_VERSION))
    
 #    with gmsh_interface() as geo:
-    geo = gmsh_interface()
-    geo.set_element_size(0.25,0.75)
-    geo.gen_mesh_from_surf(filename)
-    geo.extract_geometry()
+    if meshing == 'gmsh':
+        geo = gmsh_interface()
+        geo.set_element_size(0.25,0.75)
+        geo.gen_mesh_from_surf(filename)
+        geo.extract_geometry()
+        
+        #generate python object
+        em = EntityMesh()
+        em.add_geometry(geo.points, geo.elements)
+#        em.export_vtk('out.vtk')
+        
+        em.plot()
+        
+        geo.__exit__()
+        
+    elif meshing == 'tetgen':
     
-    #generate python object
-    em = EntityMesh()
-    em.add_geometry(geo.points, geo.elements)
-    em.export_vtk('out.vtk')
-    
-    em.plot()
-    
-    geo.__exit__()
-    
-#    sm = SurfaceMesh(filename = filename)
-#    
-#    geo = tetgen_interface()
-#    grid = geo.gen_mesh_from_surf(sm.gen_stl())
+        sm = SurfaceMesh(filename = filename)
+        
+        geo = tetgen_interface()
+        geo.gen_mesh_from_surf(sm.gen_stl())
+        
+        em = EntityMesh()
+        em.add_geometry(geo.points, geo.elements)
+#        em.export_vtk('out.vtk')
+        
+        em.plot()

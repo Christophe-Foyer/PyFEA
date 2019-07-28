@@ -110,6 +110,9 @@ class EntityMesh:
         
     #TODO: Fix this
     def merge(self, entities=[], include_self=True, autogen=True):
+        
+        if isinstance(entities, EntityMesh): entities = [entities]
+        
         assert type(entities)==list
         assert all([isinstance(x, EntityMesh) for x in entities])
         
@@ -117,8 +120,11 @@ class EntityMesh:
         if include_self: entities.append(self)
         
         #TODO: should remesh with gmsh instead of just appending
-        self.nodes = np.vstack([x.nodes for x in entities])
-        self.tets = np.vstack([x.tets for x in entities])
+        for entity in entities:
+            self.tets = np.vstack([self.tets, entity.tets+len(self.nodes)])
+            self.nodes = np.vstack([self.nodes, entity.nodes])
+#        self.nodes = np.vstack([x.nodes for x in entities])
+#        self.tets = np.vstack([x.tets for x in entities])
         
         if autogen:
             self.gen_elements()
@@ -194,14 +200,16 @@ class EntityMesh:
                         geo.gen_mesh_from_surf(tempfile)
                     except ValueError:
                         raise ValueError('Merge failed, is the geometry defined? Please check input file.')
-                    geo.extract_geometry()
                     
                     self.add_geometry(geo.points, geo.elements)
-            except:
-                print(Exception('Error with meshing engine'))
-        
-        if autogen == True:
-            self.gen_elements()
+                    
+                    if autogen == True:
+                        self.gen_elements()
+                        
+                    break
+            except Exception as e:
+                print(e)
+                print(Exception('Error with meshing engine: ' + engine.__name__))
         
     #pyvista
     def plot(self, filename=None, style='wireframe'):
@@ -400,20 +408,22 @@ if __name__=='__main__':
         surfaces.append(sm)
         em = Part(surface_mesh=sm)
         parts.append(em)
-        em.gen_mesh_from_surf(meshing='gmsh',
-                              element_size=(0.5,20))
-        
+        em.gen_mesh_from_surf(meshing='tetgen', element_size=(0.5,20))
+    
+    parts[0].merge(parts.pop(1))
+#    for part in parts: part.gen_elements()
     assembly = Assembly(parts)
     assembly.plot()
     
 #essentially here for extra testing
 if False:
     filename = '../../testfiles/scramjet/Scramjet study v6.STEP'
+#    filename = '../../testfiles/scramjet/Scramjet study v7.stl'
     
     from pyfea.interfaces.meshing import gmsh_interface
     geo = gmsh_interface()
     geo.set_element_size(5,20)
-    geo.gen_mesh_from_surf(filename)
+    geo.gen_mesh_from_cad(filename)
     geo.extract_geometry()
     
     #going to have to iterate through parts
