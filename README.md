@@ -2,22 +2,24 @@
 
 Christophe Foyer 2019 | [www.cfoyer.com](https://www.cfoyer.com)
 
-__Note:__ This is still very much a work in progress and will evolve significantly over the course of the next few months
+__Note:__ PyFEA is currently in the early stages of development and will evolve significantly over the course of the next few months.
 
 ## About
-A start to setting up a coherent library for FEA using python. 
-Hoping to make this somewhat pleasant to use eventually, and to model a few things using the mesh.
+PyFEA is built to be an extendable suite for FEA analysis in python, as this is a work in progress, no documentation is currently provided but examples will be added to the examples folder as they are created. 
 
 ## Current progress
-- Interface with the [gmsh api](https://gitlab.onelab.info/gmsh/gmsh/blob/master/api/gmsh.py) directly (for better support)
+- Interface with the [gmsh api](https://gitlab.onelab.info/gmsh/gmsh/blob/master/api/gmsh.py) for meshing
+- Interface with [tetgen](https://github.com/pyvista/tetgen/tree/master/tetgen) for meshing (some issues, but basic functionality exists)
 - Generating meshes from STP files
 - Generating meshes from STL files
 
-![Current state](project_files/screenshots/meshing.png)
+![Current state](project_files/screenshots/meshing2.png)
 
 ## To Do
-- Efficiently order data to support irregular/sparse matrices (ideally with numpy compatibility)
-- Create easy way to interact with elements and set up multi-sim problems
+- [In progress] Create easy way to interact with elements and set up multi-sim problems
+- Support multiphysics extensions
+- Improve neighboring cell finder performance
+- Fix interface (outer faces) between entitymeshes in assemblies
 
 ______
 
