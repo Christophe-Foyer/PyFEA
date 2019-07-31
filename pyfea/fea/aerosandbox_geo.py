@@ -226,7 +226,7 @@ if __name__=='__main__':
     sm = glider.wing_entities[0].surface_mesh
     sm.gen_stl('wing_mesh.tmp.stl')
     
-    sm.plot()
+#    sm.plot()
     
     geo = mesh_engine()
     geo.gen_mesh_from_surf(sm)

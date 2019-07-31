@@ -27,6 +27,7 @@ class Tetrahedron:
 #            entity_mesh.tets.tolist().index(points.tolist())
         
         self.points = np.array(points)
+        self.pointcloud = np.array(pointcloud)[points]
         self.entity_mesh = entity_mesh
         
     def get_coords(self):
@@ -43,9 +44,9 @@ class Tetrahedron:
         """
         
         #make sure the tet has access to the list of possible neighbors
-        assert tets or \
+        assert tets is not None or \
                (isinstance(self.entity_mesh, EntityMesh)
-                and self.entity_mesh.tets), \
+                and self.entity_mesh.tets is not None), \
                'Tetrahedron needs access to tets list (via argument or Tetrahedron.entity_mesh)'
                
         #vectorized neighbor finder
@@ -65,6 +66,38 @@ class Tetrahedron:
     
         return
     
+    def plot(self, plotter=None, **kwargs):
+        grid = pv.PolyData()
+        
+        import vtk
+        import vtk.util.numpy_support as vtk_np
+        
+        verts = vtk.vtkPoints()
+        verts.SetData(vtk_np.numpy_to_vtk(self.points))
+        cells = vtk.vtkCellArray()
+#        cell_np = np.array([0,1,2,3], dtype=np.int64)
+        cell_np = np.vstack([np.ones(1,dtype=np.int64), np.arange(1,dtype=np.int64)]).T.flatten()
+        cells.SetCells(1, vtk_np.numpy_to_vtkIdTypeArray(cell_np))
+        
+        grid.SetPoints(verts)
+        grid.SetVerts(cells)
+        
+        self.grid = grid
+        
+#        points = self.entity_mesh.nodes[self.points]
+        
+        if plotter==None:
+            plotter = pv.BackgroundPlotter()
+        
+#        data = pv.read(grid)
+        
+#        plotter = pv.Plotter()  # instantiate the plotter
+#        plotter.add_points(points)
+        plotter.add_mesh(grid, **kwargs)    # add a dataset to the scene
+        plotter.show()     # show the rendering window
+        
+        return plotter
+    
 class EntityMesh:
     
     nodes = None
@@ -79,10 +112,16 @@ class EntityMesh:
         if surface_mesh:
             self.surface_mesh = surface_mesh
         
-    def gen_elements(self):
+    def gen_elements(self, find_adjacent=False, force_regen=False):
+        
+        if force_regen==False and self.elements!=[]: return
+        
+        self.elements=[]
         for row in self.tets:
             tet = Tetrahedron(row, self.nodes, self)
             self.elements.append(tet)
+            
+        if find_adjacent: self.get_adjacent()
             
     def add_geometry(self, nodes, tets, autogen=True):
         assert np.array(nodes).shape[1] == 3, "nodes must be a numpy array with dims (*,3)"
@@ -104,12 +143,26 @@ class EntityMesh:
             self.gen_mesh_from_surf()
             
     def get_adjacent(self): #WIP
+        print('WARNING: this function is currently O(n^2) run mostly in '
+              + 'python. This may take a while...')
+        
         assert self.elements, 'please generate elements first eg. "mesh.gen_elements()"'
+        
+        from pyfea.tools.console_output import printProgressBar as ppb
         
         #TODO: vectorize more (toplevel loop here)
         adjacent = []
-        for tet in self.elements:
+        
+        ppb(0, len(self.elements),
+            prefix = 'Progress:', suffix = '',
+            length = 25)
+        
+        #TODO: This is extremely slow, please vectorize this
+        for i, tet in enumerate(self.elements):
             adjacent.append(tet.get_neighbors(self.tets))
+            ppb(i+1, len(self.elements),
+                prefix = 'Progress:', suffix = '',
+                length = 25, decimals = 4)
         self.adjacent = adjacent
             
     vtk_filename = None
@@ -224,8 +277,12 @@ class EntityMesh:
                 print(Exception('Error with meshing engine: ' + engine.__name__))
         
     #pyvista
-    def plot(self, filename=None, style='wireframe'):
+    def plot(self, filename=None, plotter=None, 
+             style='wireframe', **kwargs):
         #TODO: fix need for VTK file
+        
+        if plotter==None:
+            plotter = pv.BackgroundPlotter()
         
         if not filename and self.vtk_filename: 
             filename = self.vtk_filename
@@ -235,10 +292,12 @@ class EntityMesh:
             self.export_vtk(filename)
         
         data = pv.read(filename)
-        plotter = pv.BackgroundPlotter()
+        
 #        plotter = pv.Plotter()  # instantiate the plotter
-        plotter.add_mesh(data, style=style)    # add a dataset to the scene
+        plotter.add_mesh(data, style=style, **kwargs)    # add a dataset to the scene
         plotter.show()     # show the rendering window
+        
+        return plotter
         
     #Matplotlib
     def show_nodes(self):
@@ -352,6 +411,8 @@ class Assembly(EntityMesh):
         
         self.parts = parts
         
+        self.generate_mesh()
+        
 #    def gen_elements(self):
 #        for part in parts:
 #            self.points
@@ -365,6 +426,19 @@ class Assembly(EntityMesh):
                                  '" is disabled for Assembly instances.')
         return super(Assembly, self).__getattribute__(name)
         
+    #TODO: find a way to merge faces between objects?
+    def merge_faces(self):
+        pass
+    
+    def generate_mesh(self):
+        
+        self.nodes = np.array()
+        self.tets = np.array()
+        self.elements = []
+        self.adjacent = []
+        
+        self.merge(entities=[self.parts])
+    
     #This needs to be replaced
     def get_cog(self):
         print('WIP')
