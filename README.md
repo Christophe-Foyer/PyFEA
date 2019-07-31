@@ -5,7 +5,7 @@ Christophe Foyer 2019 | [www.cfoyer.com](https://www.cfoyer.com)
 __Note:__ PyFEA is currently in the early stages of development and will evolve significantly over the course of the next few months.
 
 ## About
-PyFEA is built to be an extendable suite for FEA analysis in python, as this is a work in progress, no documentation is currently provided but examples will be added to the examples folder as they are created. 
+PyFEA is built to be an extendable suite for FE analysis in python, as this is a work in progress, no documentation is currently provided but examples will be added to the examples folder as they are created. 
 
 ## Current progress
 - Interface with the [gmsh api](https://gitlab.onelab.info/gmsh/gmsh/blob/master/api/gmsh.py) for meshing
