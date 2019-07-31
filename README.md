@@ -13,7 +13,9 @@ PyFEA is built to be an extendable suite for FEA analysis in python, as this is 
 - Generating meshes from STP files
 - Generating meshes from STL files
 
-![Current state](project_files/screenshots/meshing2.png)
+<img src="project_files/screenshots/meshing2.png" align="center"  height="220"></img>
+<img src="project_files/screenshots/meshing.png" align="center"  height="220"></img>
+
 
 ## To Do
 - [In progress] Create easy way to interact with elements and set up multi-sim problems
