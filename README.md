@@ -6,6 +6,7 @@ __Note:__ PyFEA is currently in the early stages of development and will evolve 
 
 ## About
 PyFEA is built to be an extendable suite for FE analysis in python, as this is a work in progress, no documentation is currently provided but examples will be added to the examples folder as they are created. 
+The focus will be on explicit FEM applied to transient simulations (and therefore will support stead-state, albeit at a maybe larger computation time).
 
 ## Current progress
 - Interface with the [gmsh api](https://gitlab.onelab.info/gmsh/gmsh/blob/master/api/gmsh.py) for meshing
