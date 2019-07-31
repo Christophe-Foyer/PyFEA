@@ -21,6 +21,16 @@ PyFEA is built to be an extendable suite for FEA analysis in python, as this is 
 - Improve neighboring cell finder performance
 - Fix interface (outer faces) between entitymeshes in assemblies
 
+## Dependencies
+### Required:
+- numpy
+- pyvista
+- matplotlib
+- [gmsh](https://gmsh.info/)
+
+### Optional:
+- Interfaces with [AeroSandbox](https://github.com/peterdsharpe/AeroSandbox) (WIP)
+
 ______
 
 ### MIT License
