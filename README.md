@@ -15,10 +15,10 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 - Generating meshes from STL files
 
 <span>
-<p align="center">
+<div align="center">
   <img src="project_files/screenshots/meshing2.png" height=220/>
   <img src="project_files/screenshots/meshing.png" height=220/>
-</p>
+</div>
 </span>
 
 ## To Do
