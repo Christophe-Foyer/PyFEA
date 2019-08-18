@@ -5,7 +5,7 @@ Christophe Foyer 2019 | [www.cfoyer.com](https://www.cfoyer.com)
 __Note:__ PyFEA is currently in the early stages of development and will evolve significantly over the course of the next few months.
 
 ## About
-PyFEA is built to be an extendable suite for FE analysis in python, as this is a work in progress, no documentation is currently provided but examples will be added to the examples folder as they are created. 
+PyFEA is built to be an extendable suite for FE analysis in python, as this is a work in progress, no real documentation is currently provided but examples will be added to the examples folder as they are created. 
 The focus will be on explicit FEM applied to transient simulations (and therefore will support steady-state, albeit at a maybe larger computation time).
 
 ## Current progress
@@ -14,10 +14,10 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 - Generating meshes from STP files
 - Generating meshes from STL files
 
-<p align="center">
 <img src="project_files/screenshots/meshing2.png" height=220> </img>
 <img src="project_files/screenshots/meshing.png" height=220/> </img>
-</p>
+
+<span/>
 
 ## To Do
 - [In progress] Create easy way to interact with elements and set up multi-sim problems
@@ -35,6 +35,9 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 ### Optional:
 - Interfaces with [AeroSandbox](https://github.com/peterdsharpe/AeroSandbox) (WIP)
 - [tetgen](https://github.com/pyvista/tetgen/tree/master/tetgen) (currently inferior to gmsh)
+
+## Documentation (WIP):
+
 
 ______
 
