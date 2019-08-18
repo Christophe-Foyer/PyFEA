@@ -1,3 +1,3 @@
-@RD /S /Q "html"
-makehere html
+@RD /S /Q "build/html"
+make html
 pause
