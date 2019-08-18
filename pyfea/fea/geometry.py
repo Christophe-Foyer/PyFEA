@@ -458,7 +458,7 @@ class Assembly(EntityMesh):
     #sourcefile for existing assembly
     source_file = None
     
-    def __init__(self, parts, **kwargs):
+    def __init__(self, parts, auto_unify_mesh = True, **kwargs):
         
         assert 'surface_mesh' not in kwargs.keys(), \
             'incorrect argument: surface_mesh'
@@ -468,7 +468,8 @@ class Assembly(EntityMesh):
         
         self.parts = parts
         
-#        self.generate_mesh()
+        if auto_unify_mesh:
+            self.generate_mesh()
         
 #    def gen_elements(self):
 #        for part in parts:
@@ -577,8 +578,8 @@ if __name__=='__main__':
     
 #essentially here for extra testing
 if False:
-    filename = '../../testfiles/scramjet/Scramjet study v6.STEP'
-#    filename = '../../testfiles/scramjet/Scramjet study v7.stl'
+    filename = '../../examples/testfiles/scramjet/Scramjet study v6.STEP'
+#    filename = '../../examples/testfiles/scramjet/Scramjet study v7.stl'
     
     from pyfea.interfaces.meshing import gmsh_interface
     geo = gmsh_interface()

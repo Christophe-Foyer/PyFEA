@@ -3,9 +3,9 @@
 from pyfea.fea.geometry import SurfaceMesh, Part, Assembly
 
 filenames = [
-             '../testfiles/scramjet/Air.stl',
-             '../testfiles/scramjet/Body.stl',
-             '../testfiles/scramjet/Fuel outlet.stl'
+             '../examples/testfiles/scramjet/Air.stl',
+             '../examples/testfiles/scramjet/Body.stl',
+             '../examples/testfiles/scramjet/Fuel outlet.stl'
              ]
 
 surfaces = []

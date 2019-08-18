@@ -183,10 +183,10 @@ class tetgen_interface(interface_base):
 
 if __name__ == '__main__':
 
-#    filename = 'testfiles/airplane_wings.stl'
-    filename = 'testfiles/ExampleWingGeom.stl'
-#    filename = 'testfiles/scramjet/Air.stl' 
-#    filename = 'testfiles/scramjet/Scramjet study v7.stl'
+#    filename = 'examples/testfiles/airplane_wings.stl'
+    filename = 'examples/testfiles/ExampleWingGeom.stl'
+#    filename = 'examples/testfiles/scramjet/Air.stl' 
+#    filename = 'examples/testfiles/scramjet/Scramjet study v7.stl'
     
     meshing = 'gmsh'
        

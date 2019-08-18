@@ -10,6 +10,7 @@ from queue import Queue
 
 import inspect
 import types
+import copy
 
 class Simulation():
     
@@ -61,6 +62,7 @@ class Simulation():
         
         boundary_conditions = {}
         assembly = None
+        sequence = []
         
         def __init__(self, q_in, q_out, **kwargs):
             
@@ -69,14 +71,21 @@ class Simulation():
             
             for arg in kwargs:
                 setattr(self, arg, kwargs[arg])
+                
+            for effect in self.physics_effects:
+                self.sequence = self.sequence + [effect.timestep]
         
         def calculate(self, dt='auto'):
+            """
+            Calculates physical parameter with lowest timestep.
+            """
             
-            for effect in self.physics_effects:
-                effect.calculate()
+            minstep = min(self.sequence)
+            nextcalc = 
             
             #weave some c in here?
             #https://docs.scipy.org/doc/scipy-0.15.1/reference/generated/scipy.weave.inline.html
+        
     
     @staticmethod
     def _run_sim(q_in, q_out, attributes):
@@ -90,6 +99,7 @@ class Simulation():
             q_out.put(cmd.eval)
         
         while running:
+            #TODO: I don't like this being the main loop
             SimSpace.calculate()   
             
 class Physics_Effect_Base:
@@ -108,11 +118,17 @@ class Thermal_Conduction(Physics_Effect_Base):
     A class to define conduction calculatiions
     """
     
+    timestep = None
+    
     def __init__(self, **kwargs):
         super(Thermal_Conduction, self).__init__(**kwargs)
         
         self.parts = kwargs['thermal_sim_parts']
             
+    def timestep(self):
+        #TODO: Placeholder function
+        self.timestep = 0.5 #s
+        
     def calculate(self):
         pass
         
@@ -122,8 +138,8 @@ if __name__ == '__main__':
     
     from pyfea.fea.geometry import SurfaceMesh, Part, Assembly
 
-#    filename = '../../testfiles/scramjet/Body.stl'
-    filename = '../../testfiles/cube.stl'
+#    filename = '../../examples/testfiles/scramjet/Body.stl'
+    filename = '../../examples/testfiles/cube.stl'
 
     sm = SurfaceMesh(filename = filename)
     em = Part(surface_mesh=sm)
@@ -135,36 +151,3 @@ if __name__ == '__main__':
     
     sim = Simulation(assembly)
     sim.set_boundary_conditions()
-    
-if False:
-    #test c++ code here
-    
-    import scipy
-    scipy.weave.inline(
-            """
-#include <iostream>
-using namespace std;
-
-class Rectangle {
-    int width, height;
-  public:
-    Rectangle (int,int);
-    int area () {return (width*height);}
-};
-
-Rectangle::Rectangle (int a, int b) {
-  width = a;
-  height = b;
-}
-
-int main () {
-  Rectangle rect (3,4);
-  Rectangle rectb (5,6);
-  cout << "rect area: " << rect.area() << endl;
-  cout << "rectb area: " << rectb.area() << endl;
-  return_val rect.area();
-  return 0;
-}
-            """
-            
-            )
