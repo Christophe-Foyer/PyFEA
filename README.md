@@ -16,9 +16,8 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 
 <span>
 <p align="center">
-  <img src="project_files/screenshots/meshing2.png" width=75%/>
-  <br><br>
-  <img src="project_files/screenshots/meshing.png"  width=75%/>
+  <img src="project_files/screenshots/meshing2.png" height=220/>
+  <img src="project_files/screenshots/meshing.png" height=220/>
 </p>
 </span>
 
