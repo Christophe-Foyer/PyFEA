@@ -28,11 +28,12 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 ### Required:
 - numpy
 - pyvista
-- matplotlib
+- tensorflow
 - [gmsh](https://gmsh.info/)
 
 ### Optional:
 - Interfaces with [AeroSandbox](https://github.com/peterdsharpe/AeroSandbox) (WIP)
+- [tetgen](https://github.com/pyvista/tetgen/tree/master/tetgen) (currently inferior to gmsh)
 
 ______
 
