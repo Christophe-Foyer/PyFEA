@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from numba import jit
+
 import numpy as np
 import pyvista as pv
 import meshio
@@ -43,6 +45,8 @@ class Tetrahedron:
         Find neighboring tets
         """
         
+        #TODO: Implement axis aligned bounding boxes to speed up!!!
+        
         #make sure the tet has access to the list of possible neighbors
         assert tets is not None or \
                (isinstance(self.entity_mesh, EntityMesh)
@@ -53,6 +57,38 @@ class Tetrahedron:
         arr = np.concatenate((np.tile(self.points, (len(tets),1)),tets),axis=1)
         check = np.apply_along_axis(lambda x: len(set(x))==5, 1, arr)
         self.neighbors = np.nonzero(check)
+        
+        return self.neighbors
+    
+    def get_neighbors_test(self, tets=None):
+        """
+        Find neighboring tets
+        """
+        
+        #make sure the tet has access to the list of possible neighbors
+        assert tets is not None or \
+               (isinstance(self.entity_mesh, EntityMesh)
+                and self.entity_mesh.tets is not None), \
+               'Tetrahedron needs access to tets list (via argument or Tetrahedron.entity_mesh)'
+               
+        #fast neighbor finder (WIP)
+        def find_neighbors(points, tets):
+            def find_neighbors(points, tets):          
+                selftile = np.vstack(points)
+                arr = np.concatenate((selftile,tets),axis=1)
+                
+                @np.vectorize
+                def f(r1, r2, r3, r4, r5, r6, r7, r8):
+                    return np.unique([r1, r2, r3, r4, r5, r6, r7, r8],axis=0).shape[0]==5
+                split = np.split(arr, 8, axis=1)
+                check = f(*split)
+                
+                neighbors = np.nonzero(check)
+                
+                return neighbors
+            return find_neighbors(tuple([points]*len(tets)), tets)
+        
+        self.neighbors = find_neighbors(self.points, tets)
         
         return self.neighbors
     
@@ -142,7 +178,7 @@ class EntityMesh:
         if autogen:
             self.gen_mesh_from_surf()
             
-    def get_adjacent(self): #WIP
+    def _get_adjacent_legacy(self): #WIP
         print('WARNING: this function is currently O(n^2) run mostly in '
               + 'python. This may take a while...')
         
@@ -159,11 +195,21 @@ class EntityMesh:
         
         #TODO: This is extremely slow, please vectorize this
         for i, tet in enumerate(self.elements):
-            adjacent.append(tet.get_neighbors(self.tets))
+            adjacent.append(tet.get_neighbors(self.tets)[0])
             ppb(i+1, len(self.elements),
                 prefix = 'Progress:', suffix = '',
                 length = 25, decimals = 4)
         self.adjacent = adjacent
+        
+    def get_adjacent(self):
+        """WIP"""
+        from pyfea.dev.tf import adjacentfinder
+        
+        adj = adjacentfinder(self.tets, self.nodes)
+        
+        self.adjacent = np.array(adj)
+        
+        return self.adjacent
             
     vtk_filename = None
     def export_vtk(self, filename):
@@ -180,12 +226,23 @@ class EntityMesh:
         assert all([isinstance(x, EntityMesh) for x in entities])
         
         #add itself to the list
-        if include_self: entities.append(self)
+        if include_self: entities + [self]
         
         #TODO: should remesh with gmsh instead of just appending
         for entity in entities:
-            self.tets = np.vstack([self.tets, entity.tets+len(self.nodes)])
-            self.nodes = np.vstack([self.nodes, entity.nodes])
+            if len(self.tets) > 0:
+                self.tets = np.vstack([self.tets, entity.tets+len(self.nodes)])
+            else:
+                self.tets = entity.tets
+            if len(self.adjacent) > 0:
+                self.adjacent = np.vstack([self.adjacent, entity.adjacent+len(self.tets)])
+            else:
+                self.adjacent=entity.adjacent
+            if len(self.nodes) > 0:
+                self.nodes = np.vstack([self.nodes, entity.nodes])
+            else:
+                self.nodes = entity.nodes
+            
 #        self.nodes = np.vstack([x.nodes for x in entities])
 #        self.tets = np.vstack([x.tets for x in entities])
         
@@ -411,20 +468,24 @@ class Assembly(EntityMesh):
         
         self.parts = parts
         
-        self.generate_mesh()
+#        self.generate_mesh()
         
 #    def gen_elements(self):
 #        for part in parts:
 #            self.points
         
     def __getattribute__(self, name):
+        """
+        Wrapper to disable certain methods from base class.
+        """
         
         disabled_methods = ['set_surface_mesh']
         
         if name in [disabled_methods]:
             raise AttributeError('Method: "' + name +
                                  '" is disabled for Assembly instances.')
-        return super(Assembly, self).__getattribute__(name)
+        ret = super(Assembly, self).__getattribute__(name)
+        return ret 
         
     #TODO: find a way to merge faces between objects?
     def merge_faces(self):
@@ -432,12 +493,12 @@ class Assembly(EntityMesh):
     
     def generate_mesh(self):
         
-        self.nodes = np.array()
-        self.tets = np.array()
+        self.nodes = np.array([])
+        self.tets = np.array([])
         self.elements = []
         self.adjacent = []
         
-        self.merge(entities=[self.parts])
+        self.merge(entities=self.parts)
     
     #This needs to be replaced
     def get_cog(self):

@@ -4,7 +4,6 @@ if importlib.util.find_spec("aerosandbox") is None:
 
 from aerosandbox.geometry import Airplane
 from pyfea.fea.geometry import EntityMesh, SurfaceMesh
-from pyfea.interfaces.meshing import tetgen_interface as mesh_engine
 import autograd.numpy as np
 #from stl import mesh #numpy-stl
 #from scipy.spatial import Delaunay
@@ -94,7 +93,8 @@ class Airplane(Airplane):
                 p2 = i+1
                 if p2 == len(points[0]): 
                     p2 = 0
-                tri1.append([int(len(points[0])/2), p2, i])
+                else:
+                    tri1.append([int(len(points[0])/2), p2, i])
             tri1 = np.array(tri1)
         
         tri2 = []
@@ -228,5 +228,5 @@ if __name__=='__main__':
     
 #    sm.plot()
     
-    geo = mesh_engine()
-    geo.gen_mesh_from_surf(sm)
+    em = EntityMesh(surface_mesh=sm)
+    em.gen_mesh_from_surf(meshing='gmsh')

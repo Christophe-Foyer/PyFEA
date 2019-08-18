@@ -15,9 +15,12 @@ class Simulation():
     
     assembly = None
     boundary_conditions = {}
+    parameters = {}
+    physics_effects = []
     
-    def __init__(self, assembly):
+    def __init__(self, assembly, physics_effects = []):
         self.assembly = assembly
+        self.physics_effects = self.physics_effects + physics_effects
         
     def set_boundary_conditions(self, **kwargs):
         for name, value in kwargs.items():
@@ -34,7 +37,7 @@ class Simulation():
         in_q = Queue.Queue()
         out_q = Queue.Queue()
         
-        t = threading.Thread(target=None, 
+        t = threading.Thread(target=self._run_sim, 
                              args = (in_q, out_q, attributes))
         t.daemon = True
         t.start()
@@ -56,18 +59,31 @@ class Simulation():
         This should probably be a wrapper for a c++ module.
         """
         
-        def __init__(self):
-            pass
+        boundary_conditions = {}
+        assembly = None
+        
+        def __init__(self, q_in, q_out, **kwargs):
+            
+            self.q_in = q_in
+            self.q_out = q_out
+            
+            for arg in kwargs:
+                setattr(self, arg, kwargs[arg])
         
         def calculate(self, dt='auto'):
-            pass
+            
+            for effect in self.physics_effects:
+                effect.calculate()
+            
+            #weave some c in here?
+            #https://docs.scipy.org/doc/scipy-0.15.1/reference/generated/scipy.weave.inline.html
     
     @staticmethod
-    def _run_sim(q_in, q_out):
+    def _run_sim(q_in, q_out, attributes):
         running = True
         
         #Create instance
-        SimSpace = Simulation.SimSpace()
+        SimSpace = Simulation.SimSpace(q_in, q_out, attributes)
         
         if not q_in.empty():
             cmd = q_in.get()
@@ -82,27 +98,73 @@ class Physics_Effect_Base:
     extensions for multiphysics calculations.
     """
     
-    def __init__(self):
-        pass
+    simulation = None
+    
+    def __init__(self, simulation, **kwargs):
+        self.simulation = simulation
     
 class Thermal_Conduction(Physics_Effect_Base):
     """
     A class to define conduction calculatiions
     """
     
-    def __init__(self):
-        pass
+    def __init__(self, **kwargs):
+        super(Thermal_Conduction, self).__init__(**kwargs)
+        
+        self.parts = kwargs['thermal_sim_parts']
             
+    def calculate(self):
+        pass
+        
+    
+    
 if __name__ == '__main__':
+    
     from pyfea.fea.geometry import SurfaceMesh, Part, Assembly
 
-    filename = '../testfiles/scramjet/Body.stl'
-    
+#    filename = '../../testfiles/scramjet/Body.stl'
+    filename = '../../testfiles/cube.stl'
+
     sm = SurfaceMesh(filename = filename)
     em = Part(surface_mesh=sm)
-    em.gen_mesh_from_surf(meshing='gmsh', element_size=(10,25))
+    
+    em.gen_mesh_from_surf(meshing='gmsh', element_size=(1000.0,10.0**22))
+    em.get_adjacent()
 
     assembly = Assembly([em])
     
     sim = Simulation(assembly)
     sim.set_boundary_conditions()
+    
+if False:
+    #test c++ code here
+    
+    import scipy
+    scipy.weave.inline(
+            """
+#include <iostream>
+using namespace std;
+
+class Rectangle {
+    int width, height;
+  public:
+    Rectangle (int,int);
+    int area () {return (width*height);}
+};
+
+Rectangle::Rectangle (int a, int b) {
+  width = a;
+  height = b;
+}
+
+int main () {
+  Rectangle rect (3,4);
+  Rectangle rectb (5,6);
+  cout << "rect area: " << rect.area() << endl;
+  cout << "rectb area: " << rectb.area() << endl;
+  return_val rect.area();
+  return 0;
+}
+            """
+            
+            )
