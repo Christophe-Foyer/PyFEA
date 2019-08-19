@@ -23,7 +23,7 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
   <li>Generating meshes from STL files</li>
 </ul>
 
-<div markdown=0>
+<div>
 <img src="project_files/screenshots/meshing2.png" height=220 />
 <img src="project_files/screenshots/meshing.png" height=220 />
 </div>
