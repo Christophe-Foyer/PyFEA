@@ -10,17 +10,17 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 
 ## Current progress
 - Interface with the [gmsh api](https://gitlab.onelab.info/gmsh/gmsh/blob/master/api/gmsh.py) for meshing
-- Interface with [tetgen](https://github.com/pyvista/tetgen/tree/master/tetgen) for meshing (some issues, but basic functionality exists)
-- Generating meshes from STP files
-- Generating meshes from STL files
+- Interface with [tetgen](https://github.com/pyvista/tetgen/tree/master/tetgen) for meshing (basic functionality only)
+- Generating meshes from STP and STL files
 
 ![Meshing](project_files/screenshots/meshing2.png)
 
   
 ## To Do
+- [Done]~~Improve neighboring cell finder performance~~
 - [In progress] Create easy way to interact with elements and set up multi-sim problems
 - Support multiphysics extensions
-- Improve neighboring cell finder performance
+- Support netgen for meshing
 - Fix interface (outer faces) between entitymeshes in assemblies
 
 ## Dependencies
