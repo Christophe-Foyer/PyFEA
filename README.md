@@ -14,10 +14,7 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 - Generating meshes from STP files
 - Generating meshes from STL files
 
-<div>
-<img src="project_files/screenshots/meshing2.png">
-<!--<img src="project_files/screenshots/meshing.png">-->
-</div>
+![Meshing](project_files/screenshots/meshing2.png)
 
   
 ## To Do
