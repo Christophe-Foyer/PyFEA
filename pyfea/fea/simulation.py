@@ -81,7 +81,7 @@ class Simulation():
             """
             
             minstep = min(self.sequence)
-            nextcalc = 
+            nextcalc = None
             
             #weave some c in here?
             #https://docs.scipy.org/doc/scipy-0.15.1/reference/generated/scipy.weave.inline.html

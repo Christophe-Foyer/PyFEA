@@ -1,2 +1,10 @@
 theme: jekyll-theme-minimal
 include: ["_sources","_static"]
+
+title: <img src="media/images/pyfea_color.png" alt="PyFEA Logo"> PyFEA
+google_analytics: 
+show_downloads: false
+
+github:
+  zip_url: https://github.com/Christophe-Foyer/PyFEA/zipball/master
+  tar_url: https://github.com/Christophe-Foyer/PyFEA/tarball/master
