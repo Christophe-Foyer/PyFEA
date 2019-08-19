@@ -24,7 +24,11 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 </ul>
 
 <div>
-  <img src="project_files/screenshots/meshing2.png"></img>
+  <img src="project_files/screenshots/meshing2.png"> </img>
+  <img src="project_files/screenshots/meshing2.png"/>
+  <img src="project_files/screenshots/meshing2.png">test</img>
+  <img src="project_files/screenshots/meshing2.png">
+  </img>
   <img src="project_files/screenshots/meshing.png" height=220></img>
 </div>
 
