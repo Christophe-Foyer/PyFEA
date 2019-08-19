@@ -1,7 +1,7 @@
 theme: jekyll-theme-minimal
 include: ["_sources","_static"]
 
-title: <img src="project_files/logo/pyfea_color.png" alt="PyFEA Logo"> PyFEA
+title: <a href="http://pyfea.cfoyer.com"><img src="project_files/logo/pyfea_color.png" alt="PyFEA Logo"></a> PyFEA
 google_analytics: 
 show_downloads: false
 
