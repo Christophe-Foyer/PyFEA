@@ -1,5 +1,3 @@
-<p>
-  
 # PyFEA
 
 Christophe Foyer 2019 | [www.cfoyer.com](https://www.cfoyer.com)
@@ -15,14 +13,9 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 - Interface with [tetgen](https://github.com/pyvista/tetgen/tree/master/tetgen) for meshing (some issues, but basic functionality exists)
 - Generating meshes from STP files
 - Generating meshes from STL files
-</p>
 
 <img src="project_files/screenshots/meshing2.png" height=220 />
 <img src="project_files/screenshots/meshing.png" height=220 />
-
-<span/>
-
-<p>
   
 ## To Do
 - [In progress] Create easy way to interact with elements and set up multi-sim problems
@@ -68,4 +61,3 @@ Authors or copyright holders be liable for any claim, damages or other
 Liability, whether in an action of contract, tort or otherwise, arising from,
 Out of or in connection with the software or the use or other dealings in the
 Software.
-</p>
