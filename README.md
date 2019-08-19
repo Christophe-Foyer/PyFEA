@@ -14,8 +14,12 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 - Generating meshes from STP files
 - Generating meshes from STL files
 
-<img src="project_files/screenshots/meshing2.png" height=220> </img>
-<img src="project_files/screenshots/meshing.png" height=220/> </img>
+<div style="text-align:center" markdown="0">
+  
+<img src="project_files/screenshots/meshing2.png" height=220></img>
+<img src="project_files/screenshots/meshing.png" height=220></img>
+
+</div>
 
 <span/>
 
@@ -36,8 +40,9 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 - Interfaces with [AeroSandbox](https://github.com/peterdsharpe/AeroSandbox) (WIP)
 - [tetgen](https://github.com/pyvista/tetgen/tree/master/tetgen) (currently inferior to gmsh)
 
-## Documentation (WIP):
+______
 
+### [Documentation (WIP)](http://pyfea.cfoyer.com/docs/build/html/index.html)
 
 ______
 
