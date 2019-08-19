@@ -2,7 +2,7 @@ theme: jekyll-theme-minimal
 include: ["_sources","_static"]
 
 title: <a href="/#"><img src="project_files/logo/pyfea_color.png" alt="PyFEA Logo"> PyFEA</a>
-google_analytics: 
+google_analytics: UA-116335955-5
 show_downloads: false
 
 github:
