@@ -1,4 +1,4 @@
 @RD /S /Q "build/html"
-activate base
+conda activate base
 make html
 pause

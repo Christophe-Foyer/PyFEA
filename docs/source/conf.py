@@ -27,6 +27,8 @@ author = 'Christophe Foyer'
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
 
+html_logo = '_static/pyfea_text.jpg'
+
 
 # -- General configuration ---------------------------------------------------
 
