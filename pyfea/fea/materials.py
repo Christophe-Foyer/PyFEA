@@ -6,6 +6,9 @@ Created on Wed Jul 24 10:39:18 2019
 """
 
 class Material:
+    """
+    Class defining material properties
+    """
     
     #Info
     mat_type = None #fluid/solid
