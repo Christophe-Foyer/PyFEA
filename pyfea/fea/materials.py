@@ -7,7 +7,7 @@ Created on Wed Jul 24 10:39:18 2019
 
 class Material:
     """
-    Class defining material properties
+    Class defining material properties.
     """
     
     #Info
@@ -33,6 +33,9 @@ class Material:
     static_pressure = None
     
     def __init__(self, material, mat_type='solid', **kwargs):
+        """
+        Initialize material type and additional material properties throuh kwargs.
+        """
         
         assert mat_type in ['solid', 'fluid'], 'material type (mat_type) must be "fluid" or "solid"'
         

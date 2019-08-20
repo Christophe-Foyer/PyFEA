@@ -8,15 +8,24 @@ import pyvista as pv
 #logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO, datefmt='%I:%M:%S')
      
 class interface_base:
+    """
+    Base class for any interface. Makes it easier to make them interchageable.
+    """
     
     points=None
     elements=None
     filetypes=[]
     
     def __enter__(self):
+        """
+        Entrance procedure (for use with "with" statements)
+        """
         return self
     
     def __exit__(self, *args):
+        """
+        Exit procedure.
+        """
         pass
     
     def check_compatibility(self, filename):
@@ -26,10 +35,19 @@ class interface_base:
         pass
    
 class gmsh_interface(interface_base):
+    """
+    Interface for gmsh. Lets the user create 3d meshes of '.stl' files.
+    
+    Note: Support for step files and assemblies may come in  the future.
+    """
     
     filetypes=['stl']
     
     def __init__(self, name='test'):
+        """
+        Initializes the gmsh instance.
+        """
+        
         import onelab.lib.gmsh as gmsh
         self.gmsh = gmsh
         
@@ -40,6 +58,9 @@ class gmsh_interface(interface_base):
         gmsh.option.setNumber("General.Terminal", 1)
         
     def gen_mesh_from_cad(self, filename):
+        """
+        Generates a mesh from a CAD file (eg. .step/.stp)
+        """
         
         self.check_compatibility(filename)
         
@@ -59,12 +80,20 @@ class gmsh_interface(interface_base):
 #        gmsh.model.mesh.refine()
         
     def set_element_size(self, minlength=0.75, maxlength=0.75):
+        """
+        Sets the gmsh element size parameters.
+        """
+        
         gmsh = self.gmsh
         
         gmsh.option.setNumber("Mesh.CharacteristicLengthMin", minlength);
         gmsh.option.setNumber("Mesh.CharacteristicLengthMax", maxlength);
         
     def gen_mesh_from_surf(self, input_geo):
+        """
+        Generates a mesh from a surface mesh or file.
+        """
+        
         gmsh = self.gmsh
         
         if isinstance(input_geo, SurfaceMesh): input_geo = input_geo.gen_stl()
@@ -88,11 +117,19 @@ class gmsh_interface(interface_base):
         return self.extract_geometry()
 
     def display_mesh(self):
+        """
+        Displays the current gmsh mesh via the gmsh gui.
+        """
+        
         gmsh = self.gmsh
         
         gmsh.fltk.run()
         
     def extract_geometry(self):
+        """
+        Extracts the geometry from gmsh and returns it in pyfea format.
+        """
+        
         gmsh = self.gmsh
         
         #point cloud
@@ -106,26 +143,43 @@ class gmsh_interface(interface_base):
         return self.points, self.elements
         
     def output_mesh(self, filename='output.msh'):
+        """
+        Saves the mesh to a file.
+        """
+        
         gmsh = self.gmsh
         
         gmsh.write(filename)
         
     def __exit__(self, *args):
+        """
+        Exit procedure.
+        """
+        
         gmsh = self.gmsh
         
         gmsh.finalize()
         
 class tetgen_interface(interface_base):
+    """
+    Interface with the pyvista tetgen wrapper (buggy)
+    """
     
     filetypes=['stl']
     
     def set_element_size(self, minlength=0.75, maxlength=0.75):
+        """
+        WIP
+        """
         print('Currently not supported, WIP')
         
     def gen_mesh_from_surf(self, raw_input = None,
                            filename=None, 
                            tri=None, points=None, 
                            surface_mesh=None):
+        """
+        Generates a mesh from a surface mesh or file.
+        """
         
         from stl import mesh
         import tetgen

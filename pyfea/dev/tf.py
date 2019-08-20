@@ -8,7 +8,9 @@ import numpy as np
 tf.compat.v1.enable_eager_execution()
 
 def adjacentfinder(tets, nodes):
-    """finds adjacent tetrahedrons"""
+    """
+    Finds adjacent tetrahedrons using tensorflow.
+    """
     
     length = len(nodes)
     
@@ -39,7 +41,10 @@ def adjacentfinder(tets, nodes):
 
 #from https://stackoverflow.com/questions/50882282/tensorflow-bincount-with-axis-option
 def bincount(arr, length, axis=-1):
-  """Count the number of ocurrences of each value along an axis."""
+  """
+  Counts the number of ocurrences of each value along an axis.
+  """
+  
   mask = tf.equal(arr[..., tf.newaxis], tf.range(length))
   return tf.count_nonzero(mask, axis=axis - 1 if axis < 0 else axis)
 

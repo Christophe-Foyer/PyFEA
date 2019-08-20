@@ -190,41 +190,49 @@
 <dl class="class">
 <dt id="pyfea.interfaces.meshing.gmsh_interface">
 <em class="property">class </em><code class="sig-prename descclassname">pyfea.interfaces.meshing.</code><code class="sig-name descname">gmsh_interface</code><span class="sig-paren">(</span><em class="sig-param">name='test'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Interface for gmsh. Lets the user create 3d meshes of ‘.stl’ files.</p>
+<p>Note: Support for step files and assemblies may come in  the future.</p>
+<dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">name='test'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dd><p>Initializes the gmsh instance.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.display_mesh">
 <code class="sig-name descname">display_mesh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.display_mesh" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Displays the current gmsh mesh via the gmsh gui.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.extract_geometry">
 <code class="sig-name descname">extract_geometry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.extract_geometry" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Extracts the geometry from gmsh and returns it in pyfea format.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.gen_mesh_from_cad">
 <code class="sig-name descname">gen_mesh_from_cad</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.gen_mesh_from_cad" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generates a mesh from a CAD file (eg. .step/.stp)</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.gen_mesh_from_surf">
 <code class="sig-name descname">gen_mesh_from_surf</code><span class="sig-paren">(</span><em class="sig-param">input_geo</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.gen_mesh_from_surf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generates a mesh from a surface mesh or file.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.output_mesh">
 <code class="sig-name descname">output_mesh</code><span class="sig-paren">(</span><em class="sig-param">filename='output.msh'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.output_mesh" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Saves the mesh to a file.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.set_element_size">
 <code class="sig-name descname">set_element_size</code><span class="sig-paren">(</span><em class="sig-param">minlength=0.75</em>, <em class="sig-param">maxlength=0.75</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.set_element_size" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the gmsh element size parameters.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.filetypes">
@@ -240,15 +248,18 @@
 <dl class="class">
 <dt id="pyfea.interfaces.meshing.tetgen_interface">
 <em class="property">class </em><code class="sig-prename descclassname">pyfea.interfaces.meshing.</code><code class="sig-name descname">tetgen_interface</code><a class="headerlink" href="#pyfea.interfaces.meshing.tetgen_interface" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Interface with the pyvista tetgen wrapper (buggy)</p>
+<dl class="method">
 <dt id="pyfea.interfaces.meshing.tetgen_interface.gen_mesh_from_surf">
 <code class="sig-name descname">gen_mesh_from_surf</code><span class="sig-paren">(</span><em class="sig-param">raw_input=None</em>, <em class="sig-param">filename=None</em>, <em class="sig-param">tri=None</em>, <em class="sig-param">points=None</em>, <em class="sig-param">surface_mesh=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.tetgen_interface.gen_mesh_from_surf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generates a mesh from a surface mesh or file.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.tetgen_interface.set_element_size">
 <code class="sig-name descname">set_element_size</code><span class="sig-paren">(</span><em class="sig-param">minlength=0.75</em>, <em class="sig-param">maxlength=0.75</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.tetgen_interface.set_element_size" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>WIP</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="pyfea.interfaces.meshing.tetgen_interface.filetypes">

@@ -9,6 +9,9 @@ import numpy as np
 #from scipy.spatial import Delaunay
 
 class Airplane(Airplane):
+    """
+    Extension of the AeroSandbox Airplane class
+    """
     
     entitymesh = None
     wing_entities = []

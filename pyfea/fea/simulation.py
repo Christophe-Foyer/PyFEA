@@ -10,9 +10,13 @@ from queue import Queue
 
 import inspect
 import types
-import copy
+#import copy
 
 class Simulation():
+    """
+    Simulation class to run transient FEA of an assembly according to specified
+    physics modules.
+    """
     
     assembly = None
     boundary_conditions = {}

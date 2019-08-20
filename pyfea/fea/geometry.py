@@ -18,6 +18,10 @@ class Tetrahedron:
     def __init__(self, points, pointcloud,
                  entity_mesh=None,
                  array_num=None):
+        """
+        Initializes tetrahedron properties.
+        """
+        
         assert len(points) == 4, "Point array must be of length 4"
         assert max(points) < len(pointcloud), "Points must be within pointcloud length"
         
@@ -32,16 +36,24 @@ class Tetrahedron:
         self.array_num = array_num
         
     def get_coords(self):
+        """
+        Returns the 3d coordinates of the vertices of the tetrahedron.
+        """
+        
         assert self.points
         assert self.pointcloud
         return np.array(self.pointcloud)[self.points]
         
     def get_cog(self):
+        """
+        Returns the averages of the vertices.
+        """
         return np.mean(self.get_coords())
     
     def get_neighbors(self, tets=None):
         """
-        Find neighboring tets
+        Finds neighboring tetrahedrons given access to a list of potential
+        neighbors.
         """
         
         #TODO: Implement axis aligned bounding boxes to speed up!!!
@@ -59,14 +71,14 @@ class Tetrahedron:
         
         return self.neighbors
     
-    def refine_mesh(self, point=None, function=(lambda x: np.sqrt(x))):
-        """
-        Splits the tetrahedron x-times with a specified function for spacing
-        around the specified point.
-        """
-    
-        return
-    
+#    def refine_mesh(self, point=None, function=(lambda x: np.sqrt(x))):
+#        """
+#        Splits the tetrahedron x-times with a specified function for spacing
+#        around the specified point.
+#        """
+#    
+#        return
+#    
 #    def plot(self, plotter=None, **kwargs):
 #        grid = pv.PolyData()
 #        
@@ -100,6 +112,10 @@ class Tetrahedron:
 #        return plotter
     
 class EntityMesh:
+    """
+    Class defining the 3d geometry of an object.
+    This includes surface meshes, and 3d tet meshes.
+    """
     
     nodes = None
     tets = None
@@ -108,12 +124,18 @@ class EntityMesh:
     surface_mesh = None
     
     def __init__(self, surface_mesh=None):
+        """
+        Initializes the object with a surfacemesh if specified.
+        """
         assert isinstance(surface_mesh, SurfaceMesh) or surface_mesh == None, \
             Exception('surface_mesh is of type: ' + str(type(surface_mesh)))
         if surface_mesh:
             self.surface_mesh = surface_mesh
         
     def gen_elements(self, find_adjacent=False, force_regen=False):
+        """
+        Generates Tetrahedron instances.
+        """
         
         if force_regen == False and self.elements != []: return
         
@@ -125,6 +147,11 @@ class EntityMesh:
         if find_adjacent: self.get_adjacent()
             
     def add_geometry(self, nodes, tets, autogen=True):
+        """
+        Adds the specified geometry to the 3D mesh (to be used with meshing
+        interfaces).
+        """
+        
         assert np.array(nodes).shape[1] == 3, "nodes must be a numpy array with dims (*,3)"
         assert np.array(tets).shape[1] == 4, "tets must be a numpy array with dims (*,4)"
         self.nodes = nodes
@@ -134,9 +161,16 @@ class EntityMesh:
             self.gen_elements()
             
     def get_cog(self):
+        """
+        Returns COG.
+        """
         return np.mean(self.nodes[self.nodes])
             
     def set_surface_mesh(self, surface_mesh, autogen=True):
+        """
+        Defines a surface mesh.
+        """
+        
         assert isinstance(surface_mesh, SurfaceMesh)
         self.surface_mesh = surface_mesh
         
@@ -144,6 +178,11 @@ class EntityMesh:
             self.gen_mesh_from_surf()
             
     def _get_adjacent_legacy(self): #WIP
+        """
+        Legacy version of the adjecent finder 
+        (no tensorflow, python for loop, very slow).
+        """
+        
         print('WARNING: this function is currently O(n^2) run mostly in '
               + 'python. This may take a while...')
         
@@ -167,7 +206,10 @@ class EntityMesh:
         self.adjacent = adjacent
         
     def get_adjacent(self):
-        """WIP"""
+        """
+        WIP: Seems to work, but buggy, much faster though.
+        """
+        
         from pyfea.dev.tf import adjacentfinder
         
         adj = adjacentfinder(self.tets, self.nodes)
@@ -178,12 +220,19 @@ class EntityMesh:
             
     vtk_filename = None
     def export_vtk(self, _filename):
+        """
+        Exports 3D mesh to vtk
+        """
+        
         meshio.write_points_cells(_filename, self.nodes, {'tetra': self.tets})
         self.vtk_filename = _filename
         return _filename
         
     #TODO: Fix this
     def merge(self, entities, include_self=True, autogen=True):
+        """
+        Blindly merges 3d meshes. Intersections are left as-is.
+        """
         
         if isinstance(entities, EntityMesh): entities = [entities]
         
@@ -216,6 +265,9 @@ class EntityMesh:
             self.gen_elements()
             
     def gen_surface_mesh(self):
+        """
+        TODO
+        """
         print('WIP')
     
     def gen_mesh_from_surf(self,
@@ -225,8 +277,7 @@ class EntityMesh:
                            meshing='auto',
                            element_size = (0.0,10.0**22)):
         """
-        creates an entitymesh from a surface mesh (STL-like)
-        also creates an STL temp file (could be useful later on)
+        Creates an 3d mesh from a surface mesh or stl file.
         """
         
         if surface_mesh: 
@@ -302,6 +353,10 @@ class EntityMesh:
     #pyvista
     def plot(self, filename=None, plotter=None, 
              style='wireframe', **kwargs):
+        """
+        Plots a vtk tempfile using pyvista (kwargs are passed to the plotter).
+        """
+        
         #TODO: fix need for VTK file
         
         if plotter==None:
@@ -324,9 +379,15 @@ class EntityMesh:
         
     #Matplotlib
     def show_nodes(self):
+        """
+        Matplotlib scatter3d plot.
+        """
         scatter3d(self.nodes)
             
 class SurfaceMesh:
+    """
+    Surface mesh of an object.
+    """
     
     points=None
     tri=None
@@ -337,6 +398,10 @@ class SurfaceMesh:
              type(points) == list) and
             (type(tri) == np.ndarray or
              type(tri) == list)):
+            """
+            Initializes the surfacemesh from surface data or a file.
+            """
+        
             self.points = np.array(points)
             self.tri = np.array(tri)
 #            self.gen_normals()
@@ -353,6 +418,10 @@ class SurfaceMesh:
 #        os.remove(file)
         
     def plot(self, normals = False):
+        """
+        Plots the surfacemesh using matplotlib.
+        """
+        
         # for testing could 100% be done with pyvista
         from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
         import matplotlib.pyplot as plt
@@ -369,6 +438,10 @@ class SurfaceMesh:
         plt.show()
         
     def gen_stl(self, filename=None):
+        """
+        Generates an stl file from instance data.
+        """
+        
         from stl import mesh #numpy-stl
         
         if filename == None:
@@ -384,6 +457,10 @@ class SurfaceMesh:
         return filename
         
     def read_stl(self, filename):
+        """
+        Reads an stl to import into instance data.
+        """
+        
         from stl import mesh
         
         mesh = mesh.Mesh.from_file(filename)
@@ -409,6 +486,10 @@ class Part(EntityMesh):
     name = None
     
     def __init__(self, material = None, **kwargs):
+        """
+        Initializes part properties.
+        """
+        
         super(Part, self).__init__(**kwargs)
         
         self.material = material
@@ -425,6 +506,9 @@ class Assembly(EntityMesh):
     source_file = None
     
     def __init__(self, parts, auto_unify_mesh = True, **kwargs):
+        """
+        Initializes Assembly properties.
+        """
         
         assert 'surface_mesh' not in kwargs.keys(), \
             'incorrect argument: surface_mesh'
@@ -456,9 +540,15 @@ class Assembly(EntityMesh):
         
     #TODO: find a way to merge faces between objects?
     def merge_faces(self):
+        """
+        TODO: merge faces of adjacent parts (HARD)
+        """
         pass
     
     def generate_mesh(self):
+        """
+        Naively merges meshes of parts.
+        """
         
         self.nodes = np.array([])
         self.tets = np.array([])
@@ -469,10 +559,16 @@ class Assembly(EntityMesh):
     
     #This needs to be replaced
     def get_cog(self):
+        """
+        WIP
+        """
         print('WIP')
         
     #this will need updating
     def plot(self, **kwargs):
+        """
+        Plots parts to pyvista.
+        """
         
 #        if 'normals' in kwargs.keys():
 #            normals = kwargs.pop('normals')
@@ -499,6 +595,9 @@ class Assembly(EntityMesh):
         return plotter
         
     def gen_from_source(self, filename, element_size = None):
+        """
+        Generates geometry from a source file? I think this was an assembly test.
+        """
         
         #only works with gmsh not tetgen
         from pyfea.interfaces.meshing import gmsh_interface

@@ -199,30 +199,26 @@
 <dd><dl class="method">
 <dt id="pyfea.fea.geometry.Tetrahedron.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">points</em>, <em class="sig-param">pointcloud</em>, <em class="sig-param">entity_mesh=None</em>, <em class="sig-param">array_num=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dd><p>Initializes tetrahedron properties.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.Tetrahedron.get_cog">
 <code class="sig-name descname">get_cog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.get_cog" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the averages of the vertices.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.Tetrahedron.get_coords">
 <code class="sig-name descname">get_coords</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.get_coords" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the 3d coordinates of the vertices of the tetrahedron.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.Tetrahedron.get_neighbors">
 <code class="sig-name descname">get_neighbors</code><span class="sig-paren">(</span><em class="sig-param">tets=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.get_neighbors" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find neighboring tets</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyfea.fea.geometry.Tetrahedron.refine_mesh">
-<code class="sig-name descname">refine_mesh</code><span class="sig-paren">(</span><em class="sig-param">point=None</em>, <em class="sig-param">function=&lt;function Tetrahedron.&lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.refine_mesh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Splits the tetrahedron x-times with a specified function for spacing
-around the specified point.</p>
+<dd><p>Finds neighboring tetrahedrons given access to a list of potential
+neighbors.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -259,69 +255,80 @@ around the specified point.</p>
 <dl class="class">
 <dt id="pyfea.fea.geometry.EntityMesh">
 <em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.geometry.</code><code class="sig-name descname">EntityMesh</code><span class="sig-paren">(</span><em class="sig-param">surface_mesh=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Class defining the 3d geometry of an object.
+This includes surface meshes, and 3d tet meshes.</p>
+<dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">surface_mesh=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dd><p>Initializes the object with a surfacemesh if specified.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.add_geometry">
 <code class="sig-name descname">add_geometry</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">tets</em>, <em class="sig-param">autogen=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.add_geometry" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Adds the specified geometry to the 3D mesh (to be used with meshing
+interfaces).</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.export_vtk">
 <code class="sig-name descname">export_vtk</code><span class="sig-paren">(</span><em class="sig-param">_filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.export_vtk" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Exports 3D mesh to vtk</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.gen_elements">
 <code class="sig-name descname">gen_elements</code><span class="sig-paren">(</span><em class="sig-param">find_adjacent=False</em>, <em class="sig-param">force_regen=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.gen_elements" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generates Tetrahedron instances.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.gen_mesh_from_surf">
 <code class="sig-name descname">gen_mesh_from_surf</code><span class="sig-paren">(</span><em class="sig-param">tempfile=None</em>, <em class="sig-param">surface_mesh=None</em>, <em class="sig-param">autogen=True</em>, <em class="sig-param">meshing='auto'</em>, <em class="sig-param">element_size=(0.0</em>, <em class="sig-param">1e+22)</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.gen_mesh_from_surf" title="Permalink to this definition">¶</a></dt>
-<dd><p>creates an entitymesh from a surface mesh (STL-like)
-also creates an STL temp file (could be useful later on)</p>
+<dd><p>Creates an 3d mesh from a surface mesh or stl file.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.gen_surface_mesh">
 <code class="sig-name descname">gen_surface_mesh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.gen_surface_mesh" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>TODO</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.get_adjacent">
 <code class="sig-name descname">get_adjacent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.get_adjacent" title="Permalink to this definition">¶</a></dt>
-<dd><p>WIP</p>
+<dd><p>WIP: Seems to work, but buggy, much faster though.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.get_cog">
 <code class="sig-name descname">get_cog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.get_cog" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns COG.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.merge">
 <code class="sig-name descname">merge</code><span class="sig-paren">(</span><em class="sig-param">entities</em>, <em class="sig-param">include_self=True</em>, <em class="sig-param">autogen=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.merge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Blindly merges 3d meshes. Intersections are left as-is.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.plot">
 <code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">filename=None</em>, <em class="sig-param">plotter=None</em>, <em class="sig-param">style='wireframe'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.plot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Plots a vtk tempfile using pyvista (kwargs are passed to the plotter).</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.set_surface_mesh">
 <code class="sig-name descname">set_surface_mesh</code><span class="sig-paren">(</span><em class="sig-param">surface_mesh</em>, <em class="sig-param">autogen=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.set_surface_mesh" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Defines a surface mesh.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.EntityMesh.show_nodes">
 <code class="sig-name descname">show_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.show_nodes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Matplotlib scatter3d plot.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="pyfea.fea.geometry.EntityMesh.adjacent">
@@ -362,7 +369,8 @@ also creates an STL temp file (could be useful later on)</p>
 <dl class="class">
 <dt id="pyfea.fea.geometry.SurfaceMesh">
 <em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.geometry.</code><code class="sig-name descname">SurfaceMesh</code><span class="sig-paren">(</span><em class="sig-param">points=None</em>, <em class="sig-param">tri=None</em>, <em class="sig-param">filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Surface mesh of an object.</p>
+<dl class="method">
 <dt id="pyfea.fea.geometry.SurfaceMesh.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">points=None</em>, <em class="sig-param">tri=None</em>, <em class="sig-param">filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
@@ -371,17 +379,20 @@ also creates an STL temp file (could be useful later on)</p>
 <dl class="method">
 <dt id="pyfea.fea.geometry.SurfaceMesh.gen_stl">
 <code class="sig-name descname">gen_stl</code><span class="sig-paren">(</span><em class="sig-param">filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh.gen_stl" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generates an stl file from instance data.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.SurfaceMesh.plot">
 <code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">normals=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh.plot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Plots the surfacemesh using matplotlib.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.SurfaceMesh.read_stl">
 <code class="sig-name descname">read_stl</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh.read_stl" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Reads an stl to import into instance data.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="pyfea.fea.geometry.SurfaceMesh.points">
@@ -406,7 +417,7 @@ also creates an STL temp file (could be useful later on)</p>
 <dl class="method">
 <dt id="pyfea.fea.geometry.Part.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">material=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Part.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dd><p>Initializes part properties.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -432,33 +443,38 @@ also creates an STL temp file (could be useful later on)</p>
 <dl class="method">
 <dt id="pyfea.fea.geometry.Assembly.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">parts</em>, <em class="sig-param">auto_unify_mesh=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dd><p>Initializes Assembly properties.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.Assembly.gen_from_source">
 <code class="sig-name descname">gen_from_source</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">element_size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.gen_from_source" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generates geometry from a source file?</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.Assembly.generate_mesh">
 <code class="sig-name descname">generate_mesh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.generate_mesh" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Naively merges meshes of parts.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.Assembly.get_cog">
 <code class="sig-name descname">get_cog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.get_cog" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>WIP</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.Assembly.merge_faces">
 <code class="sig-name descname">merge_faces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.merge_faces" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>TODO: merge faces of adjacent parts (HARD)</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyfea.fea.geometry.Assembly.plot">
 <code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.plot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Plots parts to pyvista.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="pyfea.fea.geometry.Assembly.parts">
