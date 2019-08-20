@@ -4,7 +4,7 @@ if importlib.util.find_spec("aerosandbox") is None:
 
 from aerosandbox.geometry import Airplane
 from pyfea.fea.geometry import EntityMesh, SurfaceMesh
-import autograd.numpy as np
+import numpy as np
 #from stl import mesh #numpy-stl
 #from scipy.spatial import Delaunay
 

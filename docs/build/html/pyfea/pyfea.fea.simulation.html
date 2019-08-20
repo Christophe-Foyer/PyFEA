@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>pyfea.fea.simulation &mdash; pyFEA 0.0.1 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.0.1',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="pyFEA 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="pyfea.interfaces.meshing" href="pyfea.interfaces.meshing.html" />
+    <link rel="prev" title="pyfea.fea.geometry" href="pyfea.fea.geometry.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">pyFEA 0.0.1 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.fea.simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simulation">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#physics-effect-base">Physics_Effect_Base</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.meshing.html">pyfea.interfaces.meshing</a></li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="pyfea.fea.geometry.html" title="pyfea.fea.geometry" accesskey="P">previous </a></li>
+              <li><a href="pyfea.interfaces.meshing.html" title="pyfea.interfaces.meshing" accesskey="N">next </a></li>
+              <li><a href="../py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="../_sources/pyfea/pyfea.fea.simulation.rst.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.fea.simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simulation">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#physics-effect-base">Physics_Effect_Base</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.meshing.html">pyfea.interfaces.meshing</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyfea.fea.geometry.html"
+                        title="previous chapter">pyfea.fea.geometry</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyfea.interfaces.meshing.html"
+                        title="next chapter">pyfea.interfaces.meshing</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/pyfea/pyfea.fea.simulation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <span class="target" id="module-pyfea.fea.simulation"></span><div class="section" id="pyfea-fea-simulation">
+<h1>pyfea.fea.simulation<a class="headerlink" href="#pyfea-fea-simulation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="simulation">
+<h2>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h2>
+<p>Simulation class for defining a simulation including considered physics effects, and boundary conditions.</p>
+<dl class="class">
+<dt id="pyfea.fea.simulation.Simulation">
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.simulation.</code><code class="sig-name descname">Simulation</code><span class="sig-paren">(</span><em class="sig-param">assembly</em>, <em class="sig-param">physics_effects=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="class">
+<dt id="pyfea.fea.simulation.Simulation.SimSpace">
+<em class="property">class </em><code class="sig-name descname">SimSpace</code><span class="sig-paren">(</span><em class="sig-param">q_in</em>, <em class="sig-param">q_out</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.SimSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>This should probably be a wrapper for a c++ module.</p>
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.SimSpace.assembly">
+<code class="sig-name descname">assembly</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.SimSpace.assembly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.SimSpace.boundary_conditions">
+<code class="sig-name descname">boundary_conditions</code><em class="property"> = {}</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.SimSpace.boundary_conditions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.simulation.Simulation.SimSpace.calculate">
+<code class="sig-name descname">calculate</code><span class="sig-paren">(</span><em class="sig-param">dt='auto'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.SimSpace.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the physical parameter with lowest timestep.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.SimSpace.last_run">
+<code class="sig-name descname">last_run</code><em class="property"> = []</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.SimSpace.last_run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.SimSpace.physics_effects">
+<code class="sig-name descname">physics_effects</code><em class="property"> = []</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.SimSpace.physics_effects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.SimSpace.sequence">
+<code class="sig-name descname">sequence</code><em class="property"> = []</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.SimSpace.sequence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.assembly">
+<code class="sig-name descname">assembly</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.assembly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.boundary_conditions">
+<code class="sig-name descname">boundary_conditions</code><em class="property"> = {}</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.boundary_conditions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.parameters">
+<code class="sig-name descname">parameters</code><em class="property"> = {}</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.physics_effects">
+<code class="sig-name descname">physics_effects</code><em class="property"> = []</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.physics_effects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.simulation.Simulation.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">sim_property</em>, <em class="sig-param">parts=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.simulation.Simulation.run_simulation">
+<code class="sig-name descname">run_simulation</code><span class="sig-paren">(</span><em class="sig-param">dt=None</em>, <em class="sig-param">t=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.run_simulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.simulation.Simulation.set_boundary_conditions">
+<code class="sig-name descname">set_boundary_conditions</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.set_boundary_conditions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="physics-effect-base">
+<h2>Physics_Effect_Base<a class="headerlink" href="#physics-effect-base" title="Permalink to this headline">¶</a></h2>
+<p>Base class for defining physics effects</p>
+<dl class="class">
+<dt id="pyfea.fea.simulation.Physics_Effect_Base">
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.simulation.</code><code class="sig-name descname">Physics_Effect_Base</code><span class="sig-paren">(</span><em class="sig-param">simulation</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Physics_Effect_Base" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to set interfaces between the simulation and
+extensions for multiphysics calculations.</p>
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Physics_Effect_Base.simulation">
+<code class="sig-name descname">simulation</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.simulation.Physics_Effect_Base.simulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../index.html">pyFEA 0.0.1 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="pyfea.fea.geometry.html" title="pyfea.fea.geometry" >previous</a></li>
+        <li><a href="pyfea.interfaces.meshing.html" title="pyfea.interfaces.meshing" >next</a></li>
+        <li><a href="../py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2019, Christophe Foyer.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.1.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

@@ -12,8 +12,9 @@ Feel free to check out the docs, but you may also want to look at the source cod
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :glob:
    
-   pyfea/modules
+   pyfea/*
 
 
 

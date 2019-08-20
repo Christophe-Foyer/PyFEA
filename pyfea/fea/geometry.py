@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from numba import jit
-
 import numpy as np
 import pyvista as pv
 import meshio
@@ -20,8 +18,8 @@ class Tetrahedron:
     def __init__(self, points, pointcloud,
                  entity_mesh=None,
                  array_num=None):
-        assert len(points)==4, "Point array must be of length 4"
-        assert max(points)<len(pointcloud), "Points must be within pointcloud length"
+        assert len(points) == 4, "Point array must be of length 4"
+        assert max(points) < len(pointcloud), "Points must be within pointcloud length"
         
 #        if array_num:
 #            self.array_num = array_num
@@ -31,6 +29,7 @@ class Tetrahedron:
         self.points = np.array(points)
         self.pointcloud = np.array(pointcloud)[points]
         self.entity_mesh = entity_mesh
+        self.array_num = array_num
         
     def get_coords(self):
         assert self.points
@@ -54,41 +53,9 @@ class Tetrahedron:
                'Tetrahedron needs access to tets list (via argument or Tetrahedron.entity_mesh)'
                
         #vectorized neighbor finder
-        arr = np.concatenate((np.tile(self.points, (len(tets),1)),tets),axis=1)
-        check = np.apply_along_axis(lambda x: len(set(x))==5, 1, arr)
+        arr = np.concatenate((np.tile(self.points, (len(tets), 1)), tets), axis=1)
+        check = np.apply_along_axis(lambda x: len(set(x)) == 5, 1, arr)
         self.neighbors = np.nonzero(check)
-        
-        return self.neighbors
-    
-    def get_neighbors_test(self, tets=None):
-        """
-        Find neighboring tets
-        """
-        
-        #make sure the tet has access to the list of possible neighbors
-        assert tets is not None or \
-               (isinstance(self.entity_mesh, EntityMesh)
-                and self.entity_mesh.tets is not None), \
-               'Tetrahedron needs access to tets list (via argument or Tetrahedron.entity_mesh)'
-               
-        #fast neighbor finder (WIP)
-        def find_neighbors(points, tets):
-            def find_neighbors(points, tets):          
-                selftile = np.vstack(points)
-                arr = np.concatenate((selftile,tets),axis=1)
-                
-                @np.vectorize
-                def f(r1, r2, r3, r4, r5, r6, r7, r8):
-                    return np.unique([r1, r2, r3, r4, r5, r6, r7, r8],axis=0).shape[0]==5
-                split = np.split(arr, 8, axis=1)
-                check = f(*split)
-                
-                neighbors = np.nonzero(check)
-                
-                return neighbors
-            return find_neighbors(tuple([points]*len(tets)), tets)
-        
-        self.neighbors = find_neighbors(self.points, tets)
         
         return self.neighbors
     
@@ -97,42 +64,40 @@ class Tetrahedron:
         Splits the tetrahedron x-times with a specified function for spacing
         around the specified point.
         """
-        
-        pass
     
         return
     
-    def plot(self, plotter=None, **kwargs):
-        grid = pv.PolyData()
-        
-        import vtk
-        import vtk.util.numpy_support as vtk_np
-        
-        verts = vtk.vtkPoints()
-        verts.SetData(vtk_np.numpy_to_vtk(self.points))
-        cells = vtk.vtkCellArray()
-#        cell_np = np.array([0,1,2,3], dtype=np.int64)
-        cell_np = np.vstack([np.ones(1,dtype=np.int64), np.arange(1,dtype=np.int64)]).T.flatten()
-        cells.SetCells(1, vtk_np.numpy_to_vtkIdTypeArray(cell_np))
-        
-        grid.SetPoints(verts)
-        grid.SetVerts(cells)
-        
-        self.grid = grid
-        
-#        points = self.entity_mesh.nodes[self.points]
-        
-        if plotter==None:
-            plotter = pv.BackgroundPlotter()
-        
-#        data = pv.read(grid)
-        
-#        plotter = pv.Plotter()  # instantiate the plotter
-#        plotter.add_points(points)
-        plotter.add_mesh(grid, **kwargs)    # add a dataset to the scene
-        plotter.show()     # show the rendering window
-        
-        return plotter
+#    def plot(self, plotter=None, **kwargs):
+#        grid = pv.PolyData()
+#        
+#        import vtk
+#        import vtk.util.numpy_support as vtk_np
+#        
+#        verts = vtk.vtkPoints()
+#        verts.SetData(vtk_np.numpy_to_vtk(self.points))
+#        cells = vtk.vtkCellArray()
+##        cell_np = np.array([0,1,2,3], dtype=np.int64)
+#        cell_np = np.vstack([np.ones(1,dtype=np.int64), np.arange(1,dtype=np.int64)]).T.flatten()
+#        cells.SetCells(1, vtk_np.numpy_to_vtkIdTypeArray(cell_np))
+#        
+#        grid.SetPoints(verts)
+#        grid.SetVerts(cells)
+#        
+#        self.grid = grid
+#        
+##        points = self.entity_mesh.nodes[self.points]
+#        
+#        if plotter==None:
+#            plotter = pv.BackgroundPlotter()
+#        
+##        data = pv.read(grid)
+#        
+##        plotter = pv.Plotter()  # instantiate the plotter
+##        plotter.add_points(points)
+#        plotter.add_mesh(grid, **kwargs)    # add a dataset to the scene
+#        plotter.show()     # show the rendering window
+#        
+#        return plotter
     
 class EntityMesh:
     
@@ -143,16 +108,16 @@ class EntityMesh:
     surface_mesh = None
     
     def __init__(self, surface_mesh=None):
-        assert isinstance(surface_mesh, SurfaceMesh) or surface_mesh==None, \
+        assert isinstance(surface_mesh, SurfaceMesh) or surface_mesh == None, \
             Exception('surface_mesh is of type: ' + str(type(surface_mesh)))
         if surface_mesh:
             self.surface_mesh = surface_mesh
         
     def gen_elements(self, find_adjacent=False, force_regen=False):
         
-        if force_regen==False and self.elements!=[]: return
+        if force_regen == False and self.elements != []: return
         
-        self.elements=[]
+        self.elements = []
         for row in self.tets:
             tet = Tetrahedron(row, self.nodes, self)
             self.elements.append(tet)
@@ -169,9 +134,9 @@ class EntityMesh:
             self.gen_elements()
             
     def get_cog(self):
-        return np.mean(self.nodes[self.points])
+        return np.mean(self.nodes[self.nodes])
             
-    def set_surface_mesh(self, surface_mesh, autogen = True):
+    def set_surface_mesh(self, surface_mesh, autogen=True):
         assert isinstance(surface_mesh, SurfaceMesh)
         self.surface_mesh = surface_mesh
         
@@ -212,13 +177,13 @@ class EntityMesh:
         return self.adjacent
             
     vtk_filename = None
-    def export_vtk(self, filename):
-        meshio.write_points_cells(filename, self.nodes, {'tetra': self.tets})
-        self.vtk_filename = filename
-        return filename
+    def export_vtk(self, _filename):
+        meshio.write_points_cells(_filename, self.nodes, {'tetra': self.tets})
+        self.vtk_filename = _filename
+        return _filename
         
     #TODO: Fix this
-    def merge(self, entities=[], include_self=True, autogen=True):
+    def merge(self, entities, include_self=True, autogen=True):
         
         if isinstance(entities, EntityMesh): entities = [entities]
         
@@ -226,7 +191,8 @@ class EntityMesh:
         assert all([isinstance(x, EntityMesh) for x in entities])
         
         #add itself to the list
-        if include_self: entities + [self]
+        if include_self: 
+            entities + [self]
         
         #TODO: should remesh with gmsh instead of just appending
         for entity in entities:
@@ -358,7 +324,7 @@ class EntityMesh:
         
     #Matplotlib
     def show_nodes(self):
-        scatter3d(self.points)
+        scatter3d(self.nodes)
             
 class SurfaceMesh:
     

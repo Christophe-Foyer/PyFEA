@@ -63,6 +63,8 @@ class Simulation():
         boundary_conditions = {}
         assembly = None
         sequence = []
+        last_run = []
+        physics_effects = []
         
         def __init__(self, q_in, q_out, **kwargs):
             
@@ -74,14 +76,18 @@ class Simulation():
                 
             for effect in self.physics_effects:
                 self.sequence = self.sequence + [effect.timestep]
+                self.last_run = self.last_run + [0]
         
         def calculate(self, dt='auto'):
             """
-            Calculates physical parameter with lowest timestep.
+            Calculates the physical parameter with lowest timestep.
             """
             
             minstep = min(self.sequence)
-            nextcalc = None
+            index = self.sequence.index(minstep)
+            nextcalc = self.physics_effects[index]
+            
+            nextcalc.calculate()
             
             #weave some c in here?
             #https://docs.scipy.org/doc/scipy-0.15.1/reference/generated/scipy.weave.inline.html
@@ -129,7 +135,7 @@ class Thermal_Conduction(Physics_Effect_Base):
         #TODO: Placeholder function
         self.timestep = 0.5 #s
         
-    def calculate(self):
+    def calculate(self, dt):
         pass
         
     

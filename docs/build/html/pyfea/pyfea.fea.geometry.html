@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>pyfea.fea.geometry &mdash; pyFEA 0.0.1 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.0.1',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="pyFEA 0.0.1 documentation" href="../index.html" />
+    <link rel="prev" title="PyFEA Docs" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">pyFEA 0.0.1 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.fea.geometry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tetrahedron">Tetrahedron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#entitymesh">EntityMesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#surfacemesh">SurfaceMesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#part">Part</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#assembly">Assembly</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../index.html" title="PyFEA Docs" accesskey="P">previous </a></li>
+              <li><a href="../py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="../_sources/pyfea/pyfea.fea.geometry.rst.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.fea.geometry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tetrahedron">Tetrahedron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#entitymesh">EntityMesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#surfacemesh">SurfaceMesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#part">Part</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#assembly">Assembly</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">PyFEA Docs</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/pyfea/pyfea.fea.geometry.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <span class="target" id="module-pyfea.fea.geometry"></span><div class="section" id="pyfea-fea-geometry">
+<h1>pyfea.fea.geometry<a class="headerlink" href="#pyfea-fea-geometry" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tetrahedron">
+<h2>Tetrahedron<a class="headerlink" href="#tetrahedron" title="Permalink to this headline">¶</a></h2>
+<p>Base geometry, mainly for easy data output, more efficient data structures are used when calculating.</p>
+<dl class="class">
+<dt id="pyfea.fea.geometry.Tetrahedron">
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.geometry.</code><code class="sig-name descname">Tetrahedron</code><span class="sig-paren">(</span><em class="sig-param">points</em>, <em class="sig-param">pointcloud</em>, <em class="sig-param">entity_mesh=None</em>, <em class="sig-param">array_num=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="pyfea.fea.geometry.Tetrahedron.array_num">
+<code class="sig-name descname">array_num</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.array_num" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.Tetrahedron.entity_mesh">
+<code class="sig-name descname">entity_mesh</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.entity_mesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.Tetrahedron.get_cog">
+<code class="sig-name descname">get_cog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.get_cog" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.Tetrahedron.get_coords">
+<code class="sig-name descname">get_coords</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.get_coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.Tetrahedron.get_neighbors">
+<code class="sig-name descname">get_neighbors</code><span class="sig-paren">(</span><em class="sig-param">tets=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.get_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find neighboring tets</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.Tetrahedron.neighbors">
+<code class="sig-name descname">neighbors</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.neighbors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.Tetrahedron.pointcloud">
+<code class="sig-name descname">pointcloud</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.pointcloud" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.Tetrahedron.points">
+<code class="sig-name descname">points</code><em class="property"> = array([None, None, None, None], dtype=object)</em><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.Tetrahedron.refine_mesh">
+<code class="sig-name descname">refine_mesh</code><span class="sig-paren">(</span><em class="sig-param">point=None</em>, <em class="sig-param">function=&lt;function Tetrahedron.&lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Tetrahedron.refine_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits the tetrahedron x-times with a specified function for spacing
+around the specified point.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="entitymesh">
+<h2>EntityMesh<a class="headerlink" href="#entitymesh" title="Permalink to this headline">¶</a></h2>
+<p>Geometry definition class for tet meshes, groups tetrahedrons and the pointcloud matrix.</p>
+<dl class="class">
+<dt id="pyfea.fea.geometry.EntityMesh">
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.geometry.</code><code class="sig-name descname">EntityMesh</code><span class="sig-paren">(</span><em class="sig-param">surface_mesh=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.add_geometry">
+<code class="sig-name descname">add_geometry</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">tets</em>, <em class="sig-param">autogen=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.add_geometry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.EntityMesh.adjacent">
+<code class="sig-name descname">adjacent</code><em class="property"> = []</em><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.adjacent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.EntityMesh.elements">
+<code class="sig-name descname">elements</code><em class="property"> = []</em><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.elements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.export_vtk">
+<code class="sig-name descname">export_vtk</code><span class="sig-paren">(</span><em class="sig-param">_filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.export_vtk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.gen_elements">
+<code class="sig-name descname">gen_elements</code><span class="sig-paren">(</span><em class="sig-param">find_adjacent=False</em>, <em class="sig-param">force_regen=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.gen_elements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.gen_mesh_from_surf">
+<code class="sig-name descname">gen_mesh_from_surf</code><span class="sig-paren">(</span><em class="sig-param">tempfile=None</em>, <em class="sig-param">surface_mesh=None</em>, <em class="sig-param">autogen=True</em>, <em class="sig-param">meshing='auto'</em>, <em class="sig-param">element_size=(0.0</em>, <em class="sig-param">1e+22)</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.gen_mesh_from_surf" title="Permalink to this definition">¶</a></dt>
+<dd><p>creates an entitymesh from a surface mesh (STL-like)
+also creates an STL temp file (could be useful later on)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.gen_surface_mesh">
+<code class="sig-name descname">gen_surface_mesh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.gen_surface_mesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.get_adjacent">
+<code class="sig-name descname">get_adjacent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.get_adjacent" title="Permalink to this definition">¶</a></dt>
+<dd><p>WIP</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.get_cog">
+<code class="sig-name descname">get_cog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.get_cog" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.merge">
+<code class="sig-name descname">merge</code><span class="sig-paren">(</span><em class="sig-param">entities</em>, <em class="sig-param">include_self=True</em>, <em class="sig-param">autogen=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.merge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.EntityMesh.nodes">
+<code class="sig-name descname">nodes</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">filename=None</em>, <em class="sig-param">plotter=None</em>, <em class="sig-param">style='wireframe'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.set_surface_mesh">
+<code class="sig-name descname">set_surface_mesh</code><span class="sig-paren">(</span><em class="sig-param">surface_mesh</em>, <em class="sig-param">autogen=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.set_surface_mesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.EntityMesh.show_nodes">
+<code class="sig-name descname">show_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.show_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.EntityMesh.surface_mesh">
+<code class="sig-name descname">surface_mesh</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.surface_mesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.EntityMesh.tets">
+<code class="sig-name descname">tets</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.tets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.EntityMesh.vtk_filename">
+<code class="sig-name descname">vtk_filename</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.EntityMesh.vtk_filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="surfacemesh">
+<h2>SurfaceMesh<a class="headerlink" href="#surfacemesh" title="Permalink to this headline">¶</a></h2>
+<p>Geometry definition class for surface meshes, groups triangles and the pointcloud matrix.</p>
+<dl class="class">
+<dt id="pyfea.fea.geometry.SurfaceMesh">
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.geometry.</code><code class="sig-name descname">SurfaceMesh</code><span class="sig-paren">(</span><em class="sig-param">points=None</em>, <em class="sig-param">tri=None</em>, <em class="sig-param">filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyfea.fea.geometry.SurfaceMesh.gen_stl">
+<code class="sig-name descname">gen_stl</code><span class="sig-paren">(</span><em class="sig-param">filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh.gen_stl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.SurfaceMesh.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">normals=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.SurfaceMesh.points">
+<code class="sig-name descname">points</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh.points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.SurfaceMesh.read_stl">
+<code class="sig-name descname">read_stl</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh.read_stl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.SurfaceMesh.tri">
+<code class="sig-name descname">tri</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.SurfaceMesh.tri" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="part">
+<h2>Part<a class="headerlink" href="#part" title="Permalink to this headline">¶</a></h2>
+<p>Uses EntityMesh as a base, defines additional part information such as materials.</p>
+<dl class="class">
+<dt id="pyfea.fea.geometry.Part">
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.geometry.</code><code class="sig-name descname">Part</code><span class="sig-paren">(</span><em class="sig-param">material=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Part" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends the EntityMesh class to include part properties such as materials.</p>
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.Part.material">
+<code class="sig-name descname">material</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.Part.material" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.Part.name">
+<code class="sig-name descname">name</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.Part.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="assembly">
+<h2>Assembly<a class="headerlink" href="#assembly" title="Permalink to this headline">¶</a></h2>
+<p>Uses EntityMesh as a base, groups multiple parts in an assembly.</p>
+<dl class="class">
+<dt id="pyfea.fea.geometry.Assembly">
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.geometry.</code><code class="sig-name descname">Assembly</code><span class="sig-paren">(</span><em class="sig-param">parts</em>, <em class="sig-param">auto_unify_mesh=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is used to compile multiple Part instances to calculate interactions</p>
+<dl class="method">
+<dt id="pyfea.fea.geometry.Assembly.gen_from_source">
+<code class="sig-name descname">gen_from_source</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">element_size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.gen_from_source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.Assembly.generate_mesh">
+<code class="sig-name descname">generate_mesh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.generate_mesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.Assembly.get_cog">
+<code class="sig-name descname">get_cog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.get_cog" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.Assembly.merge_faces">
+<code class="sig-name descname">merge_faces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.merge_faces" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.Assembly.parts">
+<code class="sig-name descname">parts</code><em class="property"> = []</em><a class="headerlink" href="#pyfea.fea.geometry.Assembly.parts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.geometry.Assembly.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.geometry.Assembly.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.Assembly.source_file">
+<code class="sig-name descname">source_file</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.Assembly.source_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.geometry.Assembly.tetpart">
+<code class="sig-name descname">tetpart</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.geometry.Assembly.tetpart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../index.html">pyFEA 0.0.1 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../index.html" title="PyFEA Docs" >previous</a></li>
+        <li><a href="../py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2019, Christophe Foyer.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.1.2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

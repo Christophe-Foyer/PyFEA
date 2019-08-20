@@ -12,8 +12,11 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../pyfea'))
+#sys.path.insert(0, os.path.abspath('../../pyfea'))
 
+abspath = os.path.abspath('../..')
+print(os.path.abspath(abspath))
+sys.path.insert(0, abspath)
 
 # -- Project information -----------------------------------------------------
 
@@ -30,7 +33,7 @@ release = '0.0.1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinxcontrib.fulltoc', 'sphinxjp.themes.basicstrap']
+extensions = ['sphinxcontrib.fulltoc', 'sphinxjp.themes.basicstrap', 'sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
