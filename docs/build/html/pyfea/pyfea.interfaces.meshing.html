@@ -50,7 +50,8 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="top" title="pyFEA 0.0.1 documentation" href="../index.html" />
-    <link rel="prev" title="pyfea.fea.simulation" href="pyfea.fea.simulation.html" /> 
+    <link rel="next" title="pyfea.tools" href="pyfea.tools.html" />
+    <link rel="prev" title="pyfea.interfaces.aerosandbox" href="pyfea.interfaces.aerosandbox.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -72,19 +73,23 @@
                 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.materials.html">pyfea.fea.materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfea.fea.simulation.html">pyfea.fea.simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.aerosandbox.html">pyfea.interfaces.aerosandbox</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.interfaces.meshing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gmsh-interface">gmsh_interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tetgen-interface">tetgen_interface</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.tools.html">pyfea.tools</a></li>
 </ul>
 
                 </ul>
               </li>
 
             
-              <li><a href="pyfea.fea.simulation.html" title="pyfea.fea.simulation" accesskey="P">previous </a></li>
+              <li><a href="pyfea.interfaces.aerosandbox.html" title="pyfea.interfaces.aerosandbox" accesskey="P">previous </a></li>
+              <li><a href="pyfea.tools.html" title="pyfea.tools" accesskey="N">next </a></li>
               <li><a href="../py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
             
@@ -124,17 +129,23 @@
   <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.materials.html">pyfea.fea.materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfea.fea.simulation.html">pyfea.fea.simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.aerosandbox.html">pyfea.interfaces.aerosandbox</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.interfaces.meshing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gmsh-interface">gmsh_interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tetgen-interface">tetgen_interface</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.tools.html">pyfea.tools</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="pyfea.fea.simulation.html"
-                        title="previous chapter">pyfea.fea.simulation</a></p>
+  <p class="topless"><a href="pyfea.interfaces.aerosandbox.html"
+                        title="previous chapter">pyfea.interfaces.aerosandbox</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyfea.tools.html"
+                        title="next chapter">pyfea.tools</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -177,6 +188,12 @@
 <dt id="pyfea.interfaces.meshing.gmsh_interface">
 <em class="property">class </em><code class="sig-prename descclassname">pyfea.interfaces.meshing.</code><code class="sig-name descname">gmsh_interface</code><span class="sig-paren">(</span><em class="sig-param">name='test'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
+<dt id="pyfea.interfaces.meshing.gmsh_interface.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">name='test'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.display_mesh">
 <code class="sig-name descname">display_mesh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.display_mesh" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -184,11 +201,6 @@
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.extract_geometry">
 <code class="sig-name descname">extract_geometry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.extract_geometry" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pyfea.interfaces.meshing.gmsh_interface.filetypes">
-<code class="sig-name descname">filetypes</code><em class="property"> = ['stl']</em><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.filetypes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -211,6 +223,11 @@
 <code class="sig-name descname">set_element_size</code><span class="sig-paren">(</span><em class="sig-param">minlength=0.75</em>, <em class="sig-param">maxlength=0.75</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.set_element_size" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="attribute">
+<dt id="pyfea.interfaces.meshing.gmsh_interface.filetypes">
+<code class="sig-name descname">filetypes</code><em class="property"> = ['stl']</em><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.filetypes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -220,12 +237,7 @@
 <dl class="class">
 <dt id="pyfea.interfaces.meshing.tetgen_interface">
 <em class="property">class </em><code class="sig-prename descclassname">pyfea.interfaces.meshing.</code><code class="sig-name descname">tetgen_interface</code><a class="headerlink" href="#pyfea.interfaces.meshing.tetgen_interface" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
-<dt id="pyfea.interfaces.meshing.tetgen_interface.filetypes">
-<code class="sig-name descname">filetypes</code><em class="property"> = ['stl']</em><a class="headerlink" href="#pyfea.interfaces.meshing.tetgen_interface.filetypes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
+<dd><dl class="method">
 <dt id="pyfea.interfaces.meshing.tetgen_interface.gen_mesh_from_surf">
 <code class="sig-name descname">gen_mesh_from_surf</code><span class="sig-paren">(</span><em class="sig-param">raw_input=None</em>, <em class="sig-param">filename=None</em>, <em class="sig-param">tri=None</em>, <em class="sig-param">points=None</em>, <em class="sig-param">surface_mesh=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.tetgen_interface.gen_mesh_from_surf" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -233,6 +245,11 @@
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.tetgen_interface.set_element_size">
 <code class="sig-name descname">set_element_size</code><span class="sig-paren">(</span><em class="sig-param">minlength=0.75</em>, <em class="sig-param">maxlength=0.75</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.tetgen_interface.set_element_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.interfaces.meshing.tetgen_interface.filetypes">
+<code class="sig-name descname">filetypes</code><em class="property"> = ['stl']</em><a class="headerlink" href="#pyfea.interfaces.meshing.tetgen_interface.filetypes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -259,7 +276,8 @@
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
-        <li><a href="pyfea.fea.simulation.html" title="pyfea.fea.simulation" >previous</a></li>
+        <li><a href="pyfea.interfaces.aerosandbox.html" title="pyfea.interfaces.aerosandbox" >previous</a></li>
+        <li><a href="pyfea.tools.html" title="pyfea.tools" >next</a></li>
         <li><a href="../py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 

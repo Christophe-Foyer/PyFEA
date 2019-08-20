@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>pyfea package &mdash; pyFEA 0.0.1 documentation</title>
+    <title>pyfea.interfaces.aerosandbox &mdash; pyFEA 0.0.1 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,9 @@
 </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="top" title="pyFEA 0.0.1 documentation" href="../index.html" /> 
+    <link rel="top" title="pyFEA 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="pyfea.interfaces.meshing" href="pyfea.interfaces.meshing.html" />
+    <link rel="prev" title="pyfea.fea.simulation" href="pyfea.fea.simulation.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -69,17 +71,28 @@
                 <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry module</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.materials.html">pyfea.fea.materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.simulation.html">pyfea.fea.simulation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.interfaces.aerosandbox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#airplane">Airplane</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.meshing.html">pyfea.interfaces.meshing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.tools.html">pyfea.tools</a></li>
 </ul>
 
                 </ul>
               </li>
 
             
+              <li><a href="pyfea.fea.simulation.html" title="pyfea.fea.simulation" accesskey="P">previous </a></li>
+              <li><a href="pyfea.interfaces.meshing.html" title="pyfea.interfaces.meshing" accesskey="N">next </a></li>
+              <li><a href="../py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
             
-            <li class="visible-xs"><a href="../_sources/pyfea/pyfea.rst.txt" rel="nofollow">Show Source</a></li>
+            <li class="visible-xs"><a href="../_sources/pyfea/pyfea.interfaces.aerosandbox.rst.txt" rel="nofollow">Show Source</a></li>
 
             <li class="visible-xs">
                 <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
@@ -113,14 +126,28 @@
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
   <h3><a href="../index.html">Table of Contents</a></h3>
   <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry module</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.materials.html">pyfea.fea.materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.simulation.html">pyfea.fea.simulation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.interfaces.aerosandbox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#airplane">Airplane</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.meshing.html">pyfea.interfaces.meshing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.tools.html">pyfea.tools</a></li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyfea.fea.simulation.html"
+                        title="previous chapter">pyfea.fea.simulation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyfea.interfaces.meshing.html"
+                        title="next chapter">pyfea.interfaces.meshing</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/pyfea/pyfea.rst.txt"
+      <li><a href="../_sources/pyfea/pyfea.interfaces.aerosandbox.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -150,39 +177,44 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="pyfea-package">
-<h1>pyfea package<a class="headerlink" href="#pyfea-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.html">pyfea.fea package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.fea.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.fea.html#pyfea-fea-aerosandbox-geo-module">pyfea.fea.aerosandbox_geo module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.fea.html#pyfea-fea-geometry-module">pyfea.fea.geometry module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.fea.html#pyfea-fea-materials-module">pyfea.fea.materials module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.fea.html#pyfea-fea-simulation-module">pyfea.fea.simulation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.fea.html#module-contents">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.html">pyfea.interfaces package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.interfaces.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.interfaces.html#pyfea-interfaces-meshing-module">pyfea.interfaces.meshing module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.interfaces.html#module-contents">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyfea.tools.html">pyfea.tools package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.tools.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.tools.html#pyfea-tools-console-output-module">pyfea.tools.console_output module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.tools.html#pyfea-tools-plotting-module">pyfea.tools.plotting module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyfea.tools.html#module-contents">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+  <span class="target" id="module-pyfea.interfaces.aerosandbox"></span><div class="section" id="pyfea-interfaces-aerosandbox">
+<h1>pyfea.interfaces.aerosandbox<a class="headerlink" href="#pyfea-interfaces-aerosandbox" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="airplane">
+<h2>Airplane<a class="headerlink" href="#airplane" title="Permalink to this headline">¶</a></h2>
+<p>Extension of the aerosandbox Airplane class adding PyFEA compatibility.</p>
+<dl class="class">
+<dt id="pyfea.interfaces.aerosandbox.Airplane">
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.interfaces.aerosandbox.</code><code class="sig-name descname">Airplane</code><span class="sig-paren">(</span><em class="sig-param">name='Untitled Airplane'</em>, <em class="sig-param">xyz_ref=None</em>, <em class="sig-param">mass_props=None</em>, <em class="sig-param">wings=[]</em>, <em class="sig-param">s_ref=None</em>, <em class="sig-param">c_ref=None</em>, <em class="sig-param">b_ref=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.aerosandbox.Airplane" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyfea.interfaces.aerosandbox.Airplane.gen_wing_mesh">
+<code class="sig-name descname">gen_wing_mesh</code><span class="sig-paren">(</span><em class="sig-param">wing</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.aerosandbox.Airplane.gen_wing_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts aerosandbox wing instances to triangular meshes
+This is messy code to make a messy process work</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyfea.interfaces.aerosandbox.Airplane.generate_mesh">
+<code class="sig-name descname">generate_mesh</code><span class="sig-paren">(</span><em class="sig-param">meshtool='gmsh'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.aerosandbox.Airplane.generate_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an STL mesh for use with gmsh/CAD software</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.interfaces.aerosandbox.Airplane.entitymesh">
+<code class="sig-name descname">entitymesh</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.interfaces.aerosandbox.Airplane.entitymesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.interfaces.aerosandbox.Airplane.plane_mesh">
+<code class="sig-name descname">plane_mesh</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.interfaces.aerosandbox.Airplane.plane_mesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.interfaces.aerosandbox.Airplane.wing_entities">
+<code class="sig-name descname">wing_entities</code><em class="property"> = []</em><a class="headerlink" href="#pyfea.interfaces.aerosandbox.Airplane.wing_entities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -205,6 +237,9 @@
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
+        <li><a href="pyfea.fea.simulation.html" title="pyfea.fea.simulation" >previous</a></li>
+        <li><a href="pyfea.interfaces.meshing.html" title="pyfea.interfaces.meshing" >next</a></li>
+        <li><a href="../py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       

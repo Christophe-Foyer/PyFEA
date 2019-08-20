@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Jun 20 23:13:03 2019
-
-@author: Christophe
-"""
+#Created on Thu Jun 20 23:13:03 2019
+#@author: Christophe
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D; _ = Axes3D #hide spyder warning msg

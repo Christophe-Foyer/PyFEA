@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>pyfea.tools &mdash; pyFEA 0.0.1 documentation</title>
+    <title>pyfea.fea.materials &mdash; pyFEA 0.0.1 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -50,7 +50,8 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="top" title="pyFEA 0.0.1 documentation" href="../index.html" />
-    <link rel="prev" title="pyfea.interfaces.meshing" href="pyfea.interfaces.meshing.html" /> 
+    <link rel="next" title="pyfea.fea.simulation" href="pyfea.fea.simulation.html" />
+    <link rel="prev" title="pyfea.fea.geometry" href="pyfea.fea.geometry.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -72,26 +73,26 @@
                 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.materials.html">pyfea.fea.materials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.fea.materials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#material">Material</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="pyfea.fea.simulation.html">pyfea.fea.simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.aerosandbox.html">pyfea.interfaces.aerosandbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.meshing.html">pyfea.interfaces.meshing</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#plotting-module">plotting module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#console-output-module">console_output module</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.tools.html">pyfea.tools</a></li>
 </ul>
 
                 </ul>
               </li>
 
             
-              <li><a href="pyfea.interfaces.meshing.html" title="pyfea.interfaces.meshing" accesskey="P">previous </a></li>
+              <li><a href="pyfea.fea.geometry.html" title="pyfea.fea.geometry" accesskey="P">previous </a></li>
+              <li><a href="pyfea.fea.simulation.html" title="pyfea.fea.simulation" accesskey="N">next </a></li>
               <li><a href="../py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
             
-            <li class="visible-xs"><a href="../_sources/pyfea/pyfea.tools.rst.txt" rel="nofollow">Show Source</a></li>
+            <li class="visible-xs"><a href="../_sources/pyfea/pyfea.fea.materials.rst.txt" rel="nofollow">Show Source</a></li>
 
             <li class="visible-xs">
                 <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
@@ -127,24 +128,26 @@
   <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pyfea.fea.geometry.html">pyfea.fea.geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyfea.fea.materials.html">pyfea.fea.materials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.fea.materials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#material">Material</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="pyfea.fea.simulation.html">pyfea.fea.simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.aerosandbox.html">pyfea.interfaces.aerosandbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyfea.interfaces.meshing.html">pyfea.interfaces.meshing</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pyfea.tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#plotting-module">plotting module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#console-output-module">console_output module</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="pyfea.tools.html">pyfea.tools</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="pyfea.interfaces.meshing.html"
-                        title="previous chapter">pyfea.interfaces.meshing</a></p>
+  <p class="topless"><a href="pyfea.fea.geometry.html"
+                        title="previous chapter">pyfea.fea.geometry</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pyfea.fea.simulation.html"
+                        title="next chapter">pyfea.fea.simulation</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/pyfea/pyfea.tools.rst.txt"
+      <li><a href="../_sources/pyfea/pyfea.fea.materials.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -174,32 +177,80 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="pyfea-tools">
-<h1>pyfea.tools<a class="headerlink" href="#pyfea-tools" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="plotting-module">
-<h2>plotting module<a class="headerlink" href="#plotting-module" title="Permalink to this headline">¶</a></h2>
-<p>Handy plotting functions.</p>
-<span class="target" id="module-pyfea.tools.plotting"></span><dl class="function">
-<dt id="pyfea.tools.plotting.scatter3d">
-<code class="sig-prename descclassname">pyfea.tools.plotting.</code><code class="sig-name descname">scatter3d</code><span class="sig-paren">(</span><em class="sig-param">points</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.tools.plotting.scatter3d" title="Permalink to this definition">¶</a></dt>
+  <span class="target" id="module-pyfea.fea.materials"></span><div class="section" id="pyfea-fea-materials">
+<h1>pyfea.fea.materials<a class="headerlink" href="#pyfea-fea-materials" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="material">
+<h2>Material<a class="headerlink" href="#material" title="Permalink to this headline">¶</a></h2>
+<p>Simulation class for defining a simulation including considered physics effects, and boundary conditions.</p>
+<dl class="class">
+<dt id="pyfea.fea.materials.Material">
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.materials.</code><code class="sig-name descname">Material</code><span class="sig-paren">(</span><em class="sig-param">material</em>, <em class="sig-param">mat_type='solid'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.materials.Material" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyfea.fea.materials.Material.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">material</em>, <em class="sig-param">mat_type='solid'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.materials.Material.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.C_p">
+<code class="sig-name descname">C_p</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.C_p" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-</div>
-<div class="section" id="console-output-module">
-<h2>console_output module<a class="headerlink" href="#console-output-module" title="Permalink to this headline">¶</a></h2>
-<p>Handy output functions.</p>
-<span class="target" id="module-pyfea.tools.console_output"></span><dl class="function">
-<dt id="pyfea.tools.console_output.printProgressBar">
-<code class="sig-prename descclassname">pyfea.tools.console_output.</code><code class="sig-name descname">printProgressBar</code><span class="sig-paren">(</span><em class="sig-param">iteration</em>, <em class="sig-param">total</em>, <em class="sig-param">prefix=''</em>, <em class="sig-param">suffix=''</em>, <em class="sig-param">decimals=1</em>, <em class="sig-param">length=100</em>, <em class="sig-param">fill='█'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.tools.console_output.printProgressBar" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call in a loop to create terminal progress bar
-&#64;params:
-iteration   - Required  : current iteration (Int)
-total       - Required  : total iterations (Int)
-prefix      - Optional  : prefix string (Str)
-suffix      - Optional  : suffix string (Str)
-decimals    - Optional  : positive number of decimals in percent complete (Int)
-length      - Optional  : character length of bar (Int)
-fill        - Optional  : bar fill character (Str)</p>
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.E">
+<code class="sig-name descname">E</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.E" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.appearance">
+<code class="sig-name descname">appearance</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.appearance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.density">
+<code class="sig-name descname">density</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.density" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.mat_type">
+<code class="sig-name descname">mat_type</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.mat_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.material">
+<code class="sig-name descname">material</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.material" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.poisson">
+<code class="sig-name descname">poisson</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.poisson" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.sigma_y">
+<code class="sig-name descname">sigma_y</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.sigma_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.static_pressure">
+<code class="sig-name descname">static_pressure</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.static_pressure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.stress_strain">
+<code class="sig-name descname">stress_strain</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.stress_strain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.temperature">
+<code class="sig-name descname">temperature</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.temperature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.materials.Material.viscocity">
+<code class="sig-name descname">viscocity</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.materials.Material.viscocity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -224,7 +275,8 @@ fill        - Optional  : bar fill character (Str)</p>
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
-        <li><a href="pyfea.interfaces.meshing.html" title="pyfea.interfaces.meshing" >previous</a></li>
+        <li><a href="pyfea.fea.geometry.html" title="pyfea.fea.geometry" >previous</a></li>
+        <li><a href="pyfea.fea.simulation.html" title="pyfea.fea.simulation" >next</a></li>
         <li><a href="../py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="../genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
