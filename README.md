@@ -28,6 +28,8 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 - numpy
 - pyvista
 - tensorflow
+- meshio
+- numpy-stl
 - [gmsh](https://gmsh.info/)
 
 ### Optional:
