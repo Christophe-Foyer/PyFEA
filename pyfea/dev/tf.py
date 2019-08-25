@@ -37,7 +37,7 @@ def adjacentfinder(tets, nodes):
     
     n = tf.ragged.boolean_mask(matrix_nums, mask)
     
-    return n.to_list()
+    return n
 
 #from https://stackoverflow.com/questions/50882282/tensorflow-bincount-with-axis-option
 def bincount(arr, length, axis=-1):
@@ -47,6 +47,7 @@ def bincount(arr, length, axis=-1):
   
   mask = tf.equal(arr[..., tf.newaxis], tf.range(length))
   return tf.count_nonzero(mask, axis=axis - 1 if axis < 0 else axis)
+    
 
 if __name__ == "__main__":
 #    x = [[2.]]

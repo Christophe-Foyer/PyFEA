@@ -214,7 +214,11 @@ class EntityMesh:
         
         adj = adjacentfinder(self.tets, self.nodes)
         
-        self.adjacent = np.array(adj)
+        self.adjacent_tf = adj
+        self.adjacent = np.array(adj.to_list())
+        self._adjacent_flat = np.array([item for sublist in adj for item in sublist])
+        self._adjacent_count = np.array([len(l) for l in adj])
+        self._adjacent_cell_starts = np.insert(self._adjacent_count[:-1].cumsum(), 0, 0)
         
         return self.adjacent
             
@@ -251,8 +255,17 @@ class EntityMesh:
                 self.tets = entity.tets
             if len(self.adjacent) > 0:
                 self.adjacent = np.vstack([self.adjacent, entity.adjacent+len(self.tets)])
+                self.adjacent_tf = np.vstack([self.adjacent_tf, entity.adjacent_tf+len(self.tets)])
+                self._adjacent_flat=np.vstack([self._adjacent_flat, entity._adjacent_flat+len(self.tets)])
+                self._adjacent_count=np.vstack([self._adjacent_count, entity._adjacent_count])
+                self._adjacent_cell_starts=np.vstack([self._adjacent_cell_starts, entity._adjacent_cell_starts])
             else:
                 self.adjacent=entity.adjacent
+                self.adjacent_tf=entity.adjacent_tf
+                self._adjacent_flat=entity._adjacent_flat
+                self._adjacent_count=entity._adjacent_count
+                self._adjacent_cell_starts = entity._adjacent_cell_starts
+                
             if len(self.nodes) > 0:
                 self.nodes = np.vstack([self.nodes, entity.nodes])
             else:
