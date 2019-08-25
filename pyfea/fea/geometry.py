@@ -210,15 +210,17 @@ class EntityMesh:
         WIP: Seems to work, but buggy, much faster though.
         """
         
-        from pyfea.dev.tf import adjacentfinder
+        from pyfea.dev.tf_pyfea import adjacentfinder
         
         adj = adjacentfinder(self.tets, self.nodes)
         
         self.adjacent_tf = adj
         self.adjacent = np.array(adj.to_list())
+        
         self._adjacent_flat = np.array([item for sublist in adj for item in sublist])
         self._adjacent_count = np.array([len(l) for l in adj])
         self._adjacent_cell_starts = np.insert(self._adjacent_count[:-1].cumsum(), 0, 0)
+        self._adjacent_row_splits = np.hstack((self._adjacent_cell_starts, len(self._adjacent_flat)))
         
         return self.adjacent
             
@@ -256,15 +258,19 @@ class EntityMesh:
             if len(self.adjacent) > 0:
                 self.adjacent = np.vstack([self.adjacent, entity.adjacent+len(self.tets)])
                 self.adjacent_tf = np.vstack([self.adjacent_tf, entity.adjacent_tf+len(self.tets)])
+                
                 self._adjacent_flat=np.vstack([self._adjacent_flat, entity._adjacent_flat+len(self.tets)])
                 self._adjacent_count=np.vstack([self._adjacent_count, entity._adjacent_count])
-                self._adjacent_cell_starts=np.vstack([self._adjacent_cell_starts, entity._adjacent_cell_starts])
+                self._adjacent_cell_starts=np.vstack([self._adjacent_cell_starts, entity._adjacent_cell_starts+len(self._adjacent_flat)])
+                self._adjacent_row_splits = np.vstack([self._adjacent_row_splits, entity._adjacent_row_splits+len(self._adjacent_flat)])
             else:
                 self.adjacent=entity.adjacent
                 self.adjacent_tf=entity.adjacent_tf
+                
                 self._adjacent_flat=entity._adjacent_flat
                 self._adjacent_count=entity._adjacent_count
                 self._adjacent_cell_starts = entity._adjacent_cell_starts
+                self._adjacent_row_splits = entity._adjacent_row_splits
                 
             if len(self.nodes) > 0:
                 self.nodes = np.vstack([self.nodes, entity.nodes])
@@ -569,7 +575,10 @@ class Assembly(EntityMesh):
         self.adjacent = []
         
         self.merge(entities=self.parts)
-    
+        
+        self.materials = np.hstack([[part.material]*len(part.tets) 
+                                    for part in self.parts])
+        
     #This needs to be replaced
     def get_cog(self):
         """
@@ -627,7 +636,7 @@ class Assembly(EntityMesh):
             part.add_geometry(geo.points, geo.elements)
             self.parts.append(part)
         
-            
+# %% Testing         
     
 if __name__=='__main__':
     

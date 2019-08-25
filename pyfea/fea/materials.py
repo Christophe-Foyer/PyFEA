@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jul 24 10:39:18 2019
-
-@author: Christophe
-"""
 
 class Material:
     """
@@ -46,3 +41,8 @@ class Material:
         
         for name, value in kwargs.items():
             setattr(self, name, value)
+            
+
+            
+if __name__ == '__main__':
+    m = Material('steel', E=207*10**9)
