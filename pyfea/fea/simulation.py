@@ -346,6 +346,7 @@ class Stress_Strain(Physics_Effect_Base):
     timestep = None
     variables = ['sigma', 'tau']
     materialprops = ['E']
+    initvar = {'sigma':0, 'tau':0}
             
     def get_timestep(self):
         #TODO: Placeholder function
@@ -390,7 +391,7 @@ if __name__ == '__main__':
 
     assembly = Assembly([em])
     
-    sim = Simulation(assembly, physics_effects = [Thermal_Conduction])
+    sim = Simulation(assembly, physics_effects = [Thermal_Conduction, Stress_Strain])
 #    sim = Simulation(assembly, physics_effects = [Stress_Strain])
     
     #To set some random temps between 10C and 40C 

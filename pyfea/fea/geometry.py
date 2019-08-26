@@ -367,7 +367,7 @@ class EntityMesh:
                     break
             except Exception as e:
                 print(e)
-                print(Exception('Error with meshing engine: ' + engine.__name__))
+                print(Exception('Error with meshing engine: ' + engine.__class__))
         
     #pyvista
     def plot(self, filename=None, plotter=None, 

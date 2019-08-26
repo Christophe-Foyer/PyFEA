@@ -16,6 +16,7 @@ class interface_base:
     elements=None
     filetypes=[]
     
+    
     def __enter__(self):
         """
         Entrance procedure (for use with "with" statements)
@@ -28,11 +29,32 @@ class interface_base:
         """
         pass
     
+    def gen_mesh(self, inputgeo):
+        """
+        A wrapper function to make it easier to feed data to the correct function.
+        """
+        
+        _filetypes_descriptor = {'surface':['stl'], 'CAD':['stp', 'step']}
+        
+        self.check_compatibility(inputgeo)
+        
+        if inputgeo.rsplit('.', 1)[1] in _filetypes_descriptor['surface'] \
+            or isinstance(inputgeo, SurfaceMesh):
+            return self.gen_mesh_from_surf(inputgeo)
+            
+        elif inputgeo.rsplit('.', 1)[1] in _filetypes_descriptor['cad']:
+            return self.gen_mesh_from_cad(inputgeo)
+        
+    
     def check_compatibility(self, filename):
-        assert filename.rsplit('.', 1)[1] in self.filetypes, \
+        """
+        Checks the compatibility of a filename.
+        """
+        
+        if type(filename) == str:
+            assert filename.rsplit('.', 1)[1] in self.filetypes, \
             'filetype ' + filename.rsplit('.', 1)[1] + ' not supported for ' \
-            'mesh engine: ' + self.__name__
-        pass
+            'mesh engine: ' + str(self.__class__)
    
 class gmsh_interface(interface_base):
     """
@@ -71,13 +93,6 @@ class gmsh_interface(interface_base):
 #        gmsh.model.geo.addVolume([-1])
         gmsh.model.geo.synchronize()
         gmsh.model.mesh.generate(3)
-        
-#    def refine(self):
-#        """
-#        TODO: Seems to throw memory access violation errors
-#        """
-#        pass
-#        gmsh.model.mesh.refine()
         
     def set_element_size(self, minlength=0.75, maxlength=0.75):
         """
@@ -181,6 +196,9 @@ class tetgen_interface(interface_base):
         Generates a mesh from a surface mesh or file.
         """
         
+        if filename:
+            self.check_compatibility(filename)
+        
         from stl import mesh
         import tetgen
         
@@ -193,7 +211,6 @@ class tetgen_interface(interface_base):
         assert (filename or (tri and points) or surface_mesh), 'No input geometry specified'
         
         if filename:
-            self.check_compatibility(filename)
             mesh = mesh.Mesh.from_file(filename)
             points = np.unique(mesh.points.reshape(mesh.points.shape[0]*3, 3), axis=0)
             tri = [[points.tolist().index(x[0:3].tolist()),
@@ -236,45 +253,14 @@ class tetgen_interface(interface_base):
         return self.points, self.elements
 
 if __name__ == '__main__':
+    pass
 
-#    filename = 'examples/testfiles/airplane_wings.stl'
-    filename = 'examples/testfiles/ExampleWingGeom.stl'
-#    filename = 'examples/testfiles/scramjet/Air.stl' 
-#    filename = 'examples/testfiles/scramjet/Scramjet study v7.stl'
-    
-    meshing = 'gmsh'
-       
-    #much of this should be integrated eventually
-#    print("GMSH_API_VERSION: v{}".format(gmsh.GMSH_API_VERSION))
-    
-#    with gmsh_interface() as geo:
-    if meshing == 'gmsh':
-        geo = gmsh_interface()
-        geo.set_element_size(0.25,0.75)
-        geo.gen_mesh_from_surf(filename)
-        geo.extract_geometry()
-        
-        #generate python object
-        em = EntityMesh()
-        em.add_geometry(geo.points, geo.elements)
-#        em.export_vtk('out.vtk')
-        
-        em.plot()
-        
-        geo.__exit__()
-        
-    elif meshing == 'tetgen':
-    
-        sm = SurfaceMesh(filename = filename)
-        
-        geo = tetgen_interface()
-        grid = geo.gen_mesh_from_surf(sm.gen_stl())
-        
-        em = EntityMesh()
-        em.add_geometry(geo.points, geo.elements)
-#        em.export_vtk('out.vtk')
-        
-        em.plot()
+##    filename = 'examples/testfiles/airplane_wings.stl'
+#    filename = 'examples/testfiles/ExampleWingGeom.stl'
+##    filename = 'examples/testfiles/scramjet/Air.stl' 
+##    filename = 'examples/testfiles/scramjet/Scramjet study v7.stl'
+#    
+
         
 #class netgen_interface(interface_base):
 #    
