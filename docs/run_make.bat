@@ -1,4 +1,7 @@
+@echo off
 @RD /S /Q "build/html"
-conda activate base
-make html
+
+CALL C:\Users\Christophe\Anaconda3\Library\bin\conda.bat activate base
+
+CALL make html
 pause

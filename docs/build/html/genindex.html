@@ -169,6 +169,7 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -239,11 +240,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.boundary_conditions">boundary_conditions (pyfea.fea.simulation.Simulation attribute)</a>
-
-      <ul>
-        <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.SimSpace.boundary_conditions">(pyfea.fea.simulation.Simulation.SimSpace attribute)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -252,9 +249,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyfea/pyfea.fea.materials.html#pyfea.fea.materials.Material.C_p">C_p (pyfea.fea.materials.Material attribute)</a>
 </li>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Physics_Effect_Base.calculate">calculate() (pyfea.fea.simulation.Physics_Effect_Base method)</a>
+
+      <ul>
+        <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.SimSpace.calculate">(pyfea.fea.simulation.Simulation.SimSpace method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.SimSpace.calculate">calculate() (pyfea.fea.simulation.Simulation.SimSpace method)</a>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.cmd">cmd() (pyfea.fea.simulation.Simulation method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -262,10 +265,12 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pyfea/pyfea.fea.materials.html#pyfea.fea.materials.Material.density">density (pyfea.fea.materials.Material attribute)</a>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Physics_Effect_Base.define_variables">define_variables() (pyfea.fea.simulation.Physics_Effect_Base class method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyfea/pyfea.fea.materials.html#pyfea.fea.materials.Material.density">density (pyfea.fea.materials.Material attribute)</a>
+</li>
       <li><a href="pyfea/pyfea.interfaces.meshing.html#pyfea.interfaces.meshing.gmsh_interface.display_mesh">display_mesh() (pyfea.interfaces.meshing.gmsh_interface method)</a>
 </li>
   </ul></td>
@@ -328,14 +333,16 @@
 </li>
       <li><a href="pyfea/pyfea.interfaces.aerosandbox.html#pyfea.interfaces.aerosandbox.Airplane.gen_wing_mesh">gen_wing_mesh() (pyfea.interfaces.aerosandbox.Airplane method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.Assembly.generate_mesh">generate_mesh() (pyfea.fea.geometry.Assembly method)</a>
 
       <ul>
         <li><a href="pyfea/pyfea.interfaces.aerosandbox.html#pyfea.interfaces.aerosandbox.Airplane.generate_mesh">(pyfea.interfaces.aerosandbox.Airplane method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.get">get() (pyfea.fea.simulation.Simulation method)</a>
+</li>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.EntityMesh.get_adjacent">get_adjacent() (pyfea.fea.geometry.EntityMesh method)</a>
 </li>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.Assembly.get_cog">get_cog() (pyfea.fea.geometry.Assembly method)</a>
@@ -350,7 +357,17 @@
 </li>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.Tetrahedron.get_neighbors">get_neighbors() (pyfea.fea.geometry.Tetrahedron method)</a>
 </li>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.getvar">getvar() (pyfea.fea.simulation.Simulation method)</a>
+</li>
       <li><a href="pyfea/pyfea.interfaces.meshing.html#pyfea.interfaces.meshing.gmsh_interface">gmsh_interface (class in pyfea.interfaces.meshing)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Physics_Effect_Base.initvar">initvar (pyfea.fea.simulation.Physics_Effect_Base attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -378,6 +395,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Physics_Effect_Base.materialprops">materialprops (pyfea.fea.simulation.Physics_Effect_Base attribute)</a>
+</li>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.EntityMesh.merge">merge() (pyfea.fea.geometry.EntityMesh method)</a>
 </li>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.Assembly.merge_faces">merge_faces() (pyfea.fea.geometry.Assembly method)</a>
@@ -472,9 +491,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.SurfaceMesh.read_stl">read_stl() (pyfea.fea.geometry.SurfaceMesh method)</a>
 </li>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.run">run() (pyfea.fea.simulation.Simulation method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.run_simulation">run_simulation() (pyfea.fea.simulation.Simulation method)</a>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.run_single_thread">run_single_thread() (pyfea.fea.simulation.Simulation method)</a>
+</li>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.running">running (pyfea.fea.simulation.Simulation attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -512,6 +535,8 @@
 </li>
       <li><a href="pyfea/pyfea.fea.materials.html#pyfea.fea.materials.Material.static_pressure">static_pressure (pyfea.fea.materials.Material attribute)</a>
 </li>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Simulation.stop">stop() (pyfea.fea.simulation.Simulation method)</a>
+</li>
       <li><a href="pyfea/pyfea.fea.materials.html#pyfea.fea.materials.Material.stress_strain">stress_strain (pyfea.fea.materials.Material attribute)</a>
 </li>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.EntityMesh.surface_mesh">surface_mesh (pyfea.fea.geometry.EntityMesh attribute)</a>
@@ -526,12 +551,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyfea/pyfea.fea.materials.html#pyfea.fea.materials.Material.temperature">temperature (pyfea.fea.materials.Material attribute)</a>
 </li>
-      <li><a href="pyfea/pyfea.interfaces.meshing.html#pyfea.interfaces.meshing.tetgen_interface">tetgen_interface (class in pyfea.interfaces.meshing)</a>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Physics_Effect_Base.testvar">testvar (pyfea.fea.simulation.Physics_Effect_Base attribute)</a>
 </li>
-      <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.Assembly.tetpart">tetpart (pyfea.fea.geometry.Assembly attribute)</a>
+      <li><a href="pyfea/pyfea.interfaces.meshing.html#pyfea.interfaces.meshing.tetgen_interface">tetgen_interface (class in pyfea.interfaces.meshing)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.Assembly.tetpart">tetpart (pyfea.fea.geometry.Assembly attribute)</a>
+</li>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.Tetrahedron">Tetrahedron (class in pyfea.fea.geometry)</a>
 </li>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.EntityMesh.tets">tets (pyfea.fea.geometry.EntityMesh attribute)</a>
@@ -544,10 +571,12 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pyfea/pyfea.fea.materials.html#pyfea.fea.materials.Material.viscocity">viscocity (pyfea.fea.materials.Material attribute)</a>
+      <li><a href="pyfea/pyfea.fea.simulation.html#pyfea.fea.simulation.Physics_Effect_Base.variables">variables (pyfea.fea.simulation.Physics_Effect_Base attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyfea/pyfea.fea.materials.html#pyfea.fea.materials.Material.viscocity">viscocity (pyfea.fea.materials.Material attribute)</a>
+</li>
       <li><a href="pyfea/pyfea.fea.geometry.html#pyfea.fea.geometry.EntityMesh.vtk_filename">vtk_filename (pyfea.fea.geometry.EntityMesh attribute)</a>
 </li>
   </ul></td>
