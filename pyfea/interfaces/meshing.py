@@ -46,13 +46,16 @@ class interface_base:
             return self.gen_mesh_from_cad(inputgeo)
         
     
-    def check_compatibility(self, filename):
+    def check_compatibility(self, filename, filetypes = None):
         """
         Checks the compatibility of a filename.
         """
         
+        if not filetypes:
+            filetypes = self.filetypes
+        
         if type(filename) == str:
-            assert filename.rsplit('.', 1)[1] in self.filetypes, \
+            assert filename.rsplit('.', 1)[1] in filetypes, \
             'filetype ' + filename.rsplit('.', 1)[1] + ' not supported for ' \
             'mesh engine: ' + str(self.__class__)
    
@@ -63,9 +66,9 @@ class gmsh_interface(interface_base):
     Note: Support for step files and assemblies may come in  the future.
     """
     
-    filetypes=['stl']
+    filetypes=['stl', 'step', 'stp']
     
-    def __init__(self, name='test'):
+    def __init__(self, name='pyfea'):
         """
         Initializes the gmsh instance.
         """
@@ -93,6 +96,27 @@ class gmsh_interface(interface_base):
 #        gmsh.model.geo.addVolume([-1])
         gmsh.model.geo.synchronize()
         gmsh.model.mesh.generate(3)
+        
+        return self.extract_geometry()
+        
+    def gen_mesh_from_assembly(self, filename):
+        
+        self.check_compatibility(filename, filetypes=['step', 'stp'])
+        
+        gmsh = self.gmsh
+        
+        #TODO: add options to control how the mesh is generated
+        gmsh.merge(filename)
+#        gmsh.model.geo.addVolume([-1])
+        
+        self.entities = gmsh.model.getEntities(3)
+        
+        gmsh.model.occ.fragment(self.entities,self.entities)
+        
+        gmsh.model.geo.synchronize()
+        gmsh.model.mesh.generate(3)
+        
+        return self.extract_assembly_geometry(self.entities)
         
     def set_element_size(self, minlength=0.75, maxlength=0.75):
         """
@@ -156,6 +180,42 @@ class gmsh_interface(interface_base):
         self.elements = elements.reshape(int(len(elements)/4),4)-1
         
         return self.points, self.elements
+    
+    def extract_assembly_geometry(self, entities = [(3,1)]):
+        """
+        Extracts the geometry from gmsh and returns it in pyfea format.
+        """
+        
+        from pyfea.fea.geometry import Part, Assembly
+        
+        gmsh = self.gmsh
+        
+        parts = []
+        
+        #point cloud
+        _, points, _ = gmsh.model.mesh.getNodes()
+        points = points.reshape(( int(len(points)/3),3))
+        
+        for entity in entities:
+            
+            dim = entity[0]
+            tag = entity[1]
+            
+            elements = gmsh.model.mesh.getElements(dim, tag)
+            elements = elements[2][list(elements[0]).index(4)]
+            elements = elements.reshape(int(len(elements)/4),4)-1
+            
+#            return points, elements
+            
+            part = Part()
+            part.add_geometry(points, elements)
+                
+            parts.append(part)
+            
+            
+        assembly = Assembly(parts)
+        
+        return assembly
         
     def output_mesh(self, filename='output.msh'):
         """

@@ -374,8 +374,8 @@ if __name__ == '__main__':
     
     from pyfea.fea.geometry import SurfaceMesh, Part, Assembly
 
-#    filename = '../../examples/testfiles/scramjet/Body.stl'
-    filename = '../../examples/testfiles/cube.stl'
+    filename = '../../examples/testfiles/scramjet/Body.stl'
+#    filename = '../../examples/testfiles/cube.stl'
 
     sm = SurfaceMesh(filename = filename)
     
@@ -386,7 +386,7 @@ if __name__ == '__main__':
     
     em = Part(surface_mesh=sm, material=m)
     
-    em.gen_mesh_from_surf(meshing='gmsh', element_size=(1000.0,10.0**22))
+    em.gen_mesh_from_surf(meshing='gmsh', element_size=(10.0,10.0**22))
     em.get_adjacent()
 
     assembly = Assembly([em])

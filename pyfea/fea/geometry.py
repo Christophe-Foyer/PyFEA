@@ -119,8 +119,17 @@ class EntityMesh:
     
     nodes = None
     tets = None
-    elements = []
-    adjacent = []
+    
+    elements    = []
+    adjacent    = []
+    adjacent_tf = []
+    
+    _adjacent_flat        = []
+    _adjacent_count       = []
+    _adjacent_cell_starts = []
+    _adjacent_row_splits  = []
+                
+    
     surface_mesh = None
     
     def __init__(self, surface_mesh=None):
@@ -255,7 +264,9 @@ class EntityMesh:
                 self.tets = np.vstack([self.tets, entity.tets+len(self.nodes)])
             else:
                 self.tets = entity.tets
+                
             if len(self.adjacent) > 0:
+                    
                 self.adjacent = np.vstack([self.adjacent, entity.adjacent+len(self.tets)])
                 self.adjacent_tf = np.vstack([self.adjacent_tf, entity.adjacent_tf+len(self.tets)])
                 
@@ -263,7 +274,9 @@ class EntityMesh:
                 self._adjacent_count=np.vstack([self._adjacent_count, entity._adjacent_count])
                 self._adjacent_cell_starts=np.vstack([self._adjacent_cell_starts, entity._adjacent_cell_starts+len(self._adjacent_flat)])
                 self._adjacent_row_splits = np.vstack([self._adjacent_row_splits, entity._adjacent_row_splits+len(self._adjacent_flat)])
+            
             else:
+                
                 self.adjacent=entity.adjacent
                 self.adjacent_tf=entity.adjacent_tf
                 
