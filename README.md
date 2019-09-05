@@ -15,6 +15,8 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 
 ![Meshing](project_files/screenshots/meshing2.png)
 
+![simple_sim](project_files/screenshots/sim.gif)
+
   
 ## To Do
 - [Done]~~Improve neighboring cell finder performance~~
