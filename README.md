@@ -19,13 +19,14 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 ## To Do
 - [Done]~~Improve neighboring cell finder performance~~
 - [In progress] Create easy way to interact with elements and set up multi-sim problems
-- Support multiphysics extensions
-- Support netgen for meshing
+- [In progress] Support multiphysics extensions
+- [On Hold] Support netgen for meshing
 - Fix interface (outer faces) between entitymeshes in assemblies
 
 ## Dependencies
 ### Required:
 - numpy
+- matplotlib
 - pyvista
 - tensorflow
 - meshio
