@@ -15,10 +15,15 @@ import copy
 
 import pandas as pd
 import numpy as np
+import pyvista as pv
         
 import tensorflow as tf
 
 from pyfea.fea.materials import Material
+
+import time
+
+import matplotlib.pyplot as plt
 
 # %% Simulation
 
@@ -87,11 +92,125 @@ class Simulation():
         
         self._run_sim(in_q, out_q, attributes)
     
-    def plot(self, sim_property, parts=None):
-        self.sim_input.put('SimSpace.'+sim_property)
-        output = self.sim_output.get()
+    def plot(self, sim_property, plotter = None,
+             parts=None, cmap = None, **kwargs):
+#        self.sim_input.put('SimSpace.'+sim_property)
         
-        return output
+        var = self.getvar(sim_property).to_numpy()
+        
+        pv.UnstructuredGrid(self.assembly.export_vtk())
+        
+        if not cmap: cmap = plt.cm.get_cmap("viridis", 5)
+        
+        grid = pv.UnstructuredGrid(self.assembly.export_vtk())
+        
+        if not plotter:
+            plotter = pv.BackgroundPlotter()
+        
+        plotter.add_mesh(grid, 
+                         scalars=var, 
+                         stitle=sim_property,
+                         rng=[var.min(), var.max()],
+                         cmap = cmap,
+                         **kwargs)
+            
+        plotter.add_axes()
+        plotter.show()
+        
+        return plotter
+    
+    def plot_rt(self, sim_property, plotter=None,
+                dt = 0.5, t=20, **kwargs):
+        
+        var = self.getvar(sim_property).to_numpy()
+        
+        pv.UnstructuredGrid(self.assembly.export_vtk())
+        
+#        if not cmap: cmap = plt.cm.get_cmap("viridis", 5)
+        
+        grid = pv.UnstructuredGrid(self.assembly.export_vtk())
+        grid.cell_arrays[sim_property]=var
+        grid.set_active_scalar(sim_property)
+        
+        if not plotter:
+            plotter = pv.BackgroundPlotter()
+        
+        plotter.add_mesh(grid,
+                         scalars=sim_property,
+                         stitle=sim_property,
+#                         rng=[var.min(), var.max()],
+                         lighting=False,
+                         testure=True,
+#                         cmap = cmap,
+                         show_edges=True,
+                         **kwargs
+                         )
+            
+        plotter.add_axes()
+#        plotter.show()
+        plotter.view_isometric()
+        
+        def update(sim):
+            t_c = 0
+            
+            while t_c < t:
+                
+                var = sim.getvar(sim_property).to_numpy()
+                grid.cell_arrays[sim_property]=var
+                
+                #this is not some critical task, good enough
+                t_c = t_c + dt
+                time.sleep(dt)
+                
+        thread = threading.Thread(target=update,
+                                  args=(sim,))
+        thread.start()
+        
+        return plotter
+        
+#        thread.join()
+        
+    def plot_gif(self, sim_property, filename,
+                dt = 0.5, t=20, **kwargs):
+        
+        print('Generating gif, please wait...')
+        
+        var = self.getvar(sim_property).to_numpy()
+        
+        pv.UnstructuredGrid(self.assembly.export_vtk())
+        
+#        if not cmap: cmap = plt.cm.get_cmap("viridis", 5)
+        
+        grid = pv.UnstructuredGrid(self.assembly.export_vtk())
+        grid.cell_arrays[sim_property]=var
+        grid.set_active_scalar(sim_property)
+        
+        plotter = pv.Plotter()
+            
+        plotter.open_gif(filename)
+        
+        plotter.add_mesh(grid, scalars=sim_property, stitle=sim_property,
+#                         rng=[var.min(), var.max()],
+                         lighting=False, texture=True,
+                         show_edges=True, **kwargs)
+            
+        plotter.add_axes()
+        plotter.view_isometric()
+        
+        t_c = 0
+        plotter.write_frame()
+        while t_c < t:
+            var = sim.getvar(sim_property).to_numpy()
+            grid.cell_arrays[sim_property]=var
+            #this is not some critical task, good enough
+            t_c = t_c + dt
+            time.sleep(dt)
+            plotter.write_frame()
+                
+        plotter.close()
+        
+        print('Done.')
+        
     
     def __getattribute__(self, name):
         """
@@ -119,6 +238,9 @@ class Simulation():
             
             self.q_in = q_in
             self.q_out = q_out
+            
+            self.start_time = time.time()
+            self.sim_time = 0
             
             for arg in kwargs:
                 setattr(self, arg, copy.deepcopy(kwargs[arg]))
@@ -301,7 +423,7 @@ class Thermal_Conduction(Physics_Effect_Base):
             
     def get_timestep(self):
         #TODO: Placeholder function
-        self.timestep = 0.5 #s
+        self.timestep = 0.01 #s
         
         return self.timestep
         
@@ -374,8 +496,8 @@ if __name__ == '__main__':
     
     from pyfea.fea.geometry import SurfaceMesh, Part, Assembly
 
-    filename = '../../examples/testfiles/scramjet/Body.stl'
-#    filename = '../../examples/testfiles/cube.stl'
+#    filename = '../../examples/testfiles/scramjet/Body.stl'
+    filename = '../../examples/testfiles/cube.stl'
 
     sm = SurfaceMesh(filename = filename)
     
@@ -398,5 +520,9 @@ if __name__ == '__main__':
     sim.variables.T = sim.variables.T.apply(lambda x: np.random.rand()*30+10)
     
     sim.run()
+    
+#    sim.plot_rt('T', t=20)
+    
+    sim.plot_gif('T', 'out.gif')
     
 #    sim.set_boundary_conditions()

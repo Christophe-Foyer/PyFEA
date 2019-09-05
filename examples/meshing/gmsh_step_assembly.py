@@ -6,7 +6,9 @@ from pyfea.interfaces.meshing import gmsh_interface
 filename = '../testfiles/circletube.step'
 
 #The "with" is important because you probably want to close gmsh afterwards
-with gmsh_interface() as geo:
+#with gmsh_interface() as geo:
+if True:
+    geo = gmsh_interface()
 
     geo.set_element_size(1,10000)
     assembly = geo.gen_mesh_from_assembly(filename)

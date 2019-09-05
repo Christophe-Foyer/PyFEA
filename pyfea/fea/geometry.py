@@ -234,14 +234,18 @@ class EntityMesh:
         return self.adjacent
             
     vtk_filename = None
-    def export_vtk(self, _filename):
+    def export_vtk(self, filename=None):
         """
         Exports 3D mesh to vtk
         """
         
-        meshio.write_points_cells(_filename, self.nodes, {'tetra': self.tets})
-        self.vtk_filename = _filename
-        return _filename
+        if not filename: 
+            import tempfile
+            filename = tempfile.TemporaryFile(suffix='.vtk').name
+            
+        meshio.write_points_cells(filename, self.nodes, {'tetra': self.tets})
+        self.vtk_filename = filename
+        return filename
         
     #TODO: Fix this
     def merge(self, entities, include_self=True, autogen=True):
@@ -588,6 +592,14 @@ class Assembly(EntityMesh):
         self.adjacent = []
         
         self.merge(entities=self.parts)
+        
+        #TODO: remove duplicate points (will speed up neighbor finder)
+        
+        ##Remove duplicate nodes
+        #nodes = np.unique(self.nodes,  axis=0)
+        ##Reassign tets to new nodes
+        #shape = self.tets.shape
+        #for point in self.tets.flatten()
         
         self.materials = np.hstack([[part.material]*len(part.tets) 
                                     for part in self.parts])

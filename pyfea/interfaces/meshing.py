@@ -111,6 +111,8 @@ class gmsh_interface(interface_base):
         
         self.entities = gmsh.model.getEntities(3)
         
+        
+        
         gmsh.model.occ.fragment(self.entities,self.entities)
         
         gmsh.model.geo.synchronize()
@@ -154,6 +156,45 @@ class gmsh_interface(interface_base):
         gmsh.model.mesh.generate(3)
         
         return self.extract_geometry()
+    
+    def get_face_neighbors(self, verbose=False):
+        """
+        https://gitlab.onelab.info/gmsh/gmsh/blob/master/demos/api/neighbors.py
+        """
+        
+        gmsh = self.gmsh
+        
+        if verbose: print("--- getting tets and face nodes")
+        tets, _ = gmsh.model.mesh.getElementsByType(4)
+#        tets = gmsh.model.mesh.getElements(3)
+        fnodes = gmsh.model.mesh.getElementFaceNodes(4, 3)
+        
+        if verbose: print("--- computing face x tet incidence")
+        faces = []
+        fxt = {}
+        for i in range(0, len(fnodes), 3):
+            f = tuple(sorted(fnodes[i:i+3]))
+            faces.append(f)
+            t = tets[int(i/12)]
+            if not f in fxt:
+                fxt[f] = [t]
+            else:
+                fxt[f].append(t)
+        
+        if verbose: print("--- computing neighbors by face")
+        txt = {}
+        for i in range(0, len(faces)):
+            f = faces[i]
+            t = tets[int(i/4)]
+            if not t in txt:
+                txt[t] = set()
+            for tt in fxt[f]:
+                if tt != t:
+                    txt[t].add(tt)
+        
+        if verbose: print("--- done: neighbors by face =", txt)
+        
+        return tt
 
     def display_mesh(self):
         """
