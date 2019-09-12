@@ -8,6 +8,8 @@ import numpy as np
 #from stl import mesh #numpy-stl
 #from scipy.spatial import Delaunay
 
+import pyvista as pv
+
 class Airplane(Airplane):
     """
     Extension of the AeroSandbox Airplane class
@@ -232,4 +234,4 @@ if __name__=='__main__':
 #    sm.plot()
     
     em = EntityMesh(surface_mesh=sm)
-    em.gen_mesh_from_surf(meshing='gmsh')
+#    em.gen_mesh_from_surf(meshing='gmsh')
