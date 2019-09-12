@@ -39,7 +39,7 @@ class Simulation():
     physics_effects = []
     running = False
     
-    def __init__(self, assembly, physics_effects = []):
+    def __init__(self, assembly, physics_effects = [], webserver=False):
         self.assembly = assembly
         self.physics_effects = self.physics_effects + physics_effects
         
@@ -50,6 +50,18 @@ class Simulation():
         
         for effect in self.physics_effects:
             effect.define_variables(self)
+            
+        if webserver==True:
+            #it autolunches itself, maybe I should explicitly ask it to
+            import pyfea.tools.webserver
+            #this is not very useful but eh, maybe can kill it
+            self.webserver = pyfea.tools.webserver
+            
+            #this is not a beautiful fix, but eh
+            import atexit
+            def cleanup():
+                sim.webserver.kill(sim.webserver.process.pid)
+            atexit.register(cleanup)
         
     def set_boundary_conditions(self, **kwargs):
         for name, value in kwargs.items():
@@ -57,11 +69,14 @@ class Simulation():
             
     def run(self, dt=None, t=None):
         
+        excluded_attr = ['webserver']
+        
         attributes = inspect.getmembers(self, lambda a:not(inspect.isroutine(a)))
         attributes = {a[0]:a[1] for a in attributes 
                       if not(a[0].startswith('__') 
                       and a[0].endswith('__'))
-                      and not inspect.isclass(a[1])}
+                      and not inspect.isclass(a[1])
+                      and not a[0] in excluded_attr}
         
         in_q = Queue()
         out_q = Queue()
@@ -163,7 +178,7 @@ class Simulation():
                 time.sleep(dt)
                 
         thread = threading.Thread(target=update,
-                                  args=(sim,))
+                                  args=(self,))
         thread.start()
         
         return plotter
@@ -200,7 +215,7 @@ class Simulation():
         t_c = 0
         plotter.write_frame()
         while t_c < t:
-            var = sim.getvar(sim_property).to_numpy()
+            var = self.getvar(sim_property).to_numpy()
             grid.cell_arrays[sim_property]=var
             #this is not some critical task, good enough
             t_c = t_c + dt
@@ -359,6 +374,8 @@ class Simulation():
                 
             #TODO: I don't like this being the main loop
             simspace.calculate()   
+            
+    
         
 # %% Physics
         
@@ -423,7 +440,7 @@ class Thermal_Conduction(Physics_Effect_Base):
             
     def get_timestep(self):
         #TODO: Placeholder function
-        self.timestep = 0.01 #s
+        self.timestep = 0.1 #s
         
         return self.timestep
         
@@ -432,16 +449,19 @@ class Thermal_Conduction(Physics_Effect_Base):
         Calculates the conduction (currently dummy formula)
         """
         
+        sim = self.simulation
+        assembly = self.simulation.assembly
+        
         # TODO: This is bogus math
         
         T = tf.constant(self.simulation.variables['T'].values, dtype=tf.float64)
-        Cp = tf.constant(self.simulation.variables['Cp'].values, dtype=tf.float64)
-        k = tf.constant(self.simulation.variables['k'].values, dtype=tf.float64)
+#        Cp = tf.constant(self.simulation.variables['Cp'].values, dtype=tf.float64)
+#        k = tf.constant(self.simulation.variables['k'].values, dtype=tf.float64)
 #        T_neighbors = np.split(self.simulation.variables['T'].values \
 #                               [assembly._adjacent_flat],
 #                               assembly._adjacent_cell_starts[1:])
         
-        T_n = tf.RaggedTensor.from_row_splits(values=self.simulation.variables['T'].values[assembly._adjacent_flat],
+        T_n = tf.RaggedTensor.from_row_splits(values=sim.variables['T'].values[assembly._adjacent_flat],
                                               row_splits=assembly._adjacent_row_splits)
         
         dt = tf.constant(dt, dtype=tf.float64)
@@ -521,8 +541,8 @@ if __name__ == '__main__':
     
     sim.run()
     
-#    sim.plot_rt('T', t=20)
+    sim.plot_rt('T', t=20)
     
-    sim.plot_gif('T', 'out.gif')
+#    sim.plot_gif('T', 'out.gif')
     
 #    sim.set_boundary_conditions()
