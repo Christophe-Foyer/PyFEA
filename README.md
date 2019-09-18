@@ -20,6 +20,7 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 
   
 ## To Do
+- Improve performance for large tet numbers
 - [Done]~~Improve neighboring cell finder performance~~
 - [In progress] Create easy way to interact with elements and set up multi-sim problems
 - [In progress] Support multiphysics extensions
