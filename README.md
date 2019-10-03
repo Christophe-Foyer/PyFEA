@@ -9,6 +9,7 @@ PyFEA is built to be an extendable suite for FE analysis in python, as this is a
 The focus will be on explicit FEM applied to transient simulations (and therefore will support steady-state, albeit at a maybe larger computational time).
 
 ## Current progress
+- Simulations running! (see animation)
 - Interface with the [gmsh api](https://gitlab.onelab.info/gmsh/gmsh/blob/master/api/gmsh.py) for meshing
 - Interface with [tetgen](https://github.com/pyvista/tetgen/tree/master/tetgen) for meshing (basic functionality only)
 - Generating meshes from STP and STL files
@@ -19,9 +20,12 @@ The focus will be on explicit FEM applied to transient simulations (and therefor
 
   
 ## To Do
+- Improve performance for large tet numbers
 - [Done]~~Improve neighboring cell finder performance~~
 - [In progress] Create easy way to interact with elements and set up multi-sim problems
 - [In progress] Support multiphysics extensions
+- [In progress] RESTful API
+- [In Progress] Simulation Dashboard
 - [On Hold] Support netgen for meshing
 - Fix interface (outer faces) between entitymeshes in assemblies
 
