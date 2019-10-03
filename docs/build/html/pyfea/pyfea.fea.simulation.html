@@ -189,7 +189,7 @@
 <p>Simulation class for defining a simulation including considered physics effects, and boundary conditions.</p>
 <dl class="class">
 <dt id="pyfea.fea.simulation.Simulation">
-<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.simulation.</code><code class="sig-name descname">Simulation</code><span class="sig-paren">(</span><em class="sig-param">assembly</em>, <em class="sig-param">physics_effects=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.fea.simulation.</code><code class="sig-name descname">Simulation</code><span class="sig-paren">(</span><em class="sig-param">assembly</em>, <em class="sig-param">physics_effects=[]</em>, <em class="sig-param">webserver=False</em>, <em class="sig-param">sim_poll_freq=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulation class to run transient FEA of an assembly according to specified
 physics modules.</p>
 <dl class="class">
@@ -233,7 +233,7 @@ EDIT: Probably not going to happen for a bit</p>
 
 <dl class="method">
 <dt id="pyfea.fea.simulation.Simulation.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">assembly</em>, <em class="sig-param">physics_effects=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">assembly</em>, <em class="sig-param">physics_effects=[]</em>, <em class="sig-param">webserver=False</em>, <em class="sig-param">sim_poll_freq=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -254,7 +254,17 @@ EDIT: Probably not going to happen for a bit</p>
 
 <dl class="method">
 <dt id="pyfea.fea.simulation.Simulation.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">sim_property</em>, <em class="sig-param">parts=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">sim_property</em>, <em class="sig-param">plotter=None</em>, <em class="sig-param">parts=None</em>, <em class="sig-param">cmap=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.simulation.Simulation.plot_gif">
+<code class="sig-name descname">plot_gif</code><span class="sig-paren">(</span><em class="sig-param">sim_property</em>, <em class="sig-param">filename</em>, <em class="sig-param">dt=0.5</em>, <em class="sig-param">t=20</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.plot_gif" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyfea.fea.simulation.Simulation.plot_rt">
+<code class="sig-name descname">plot_rt</code><span class="sig-paren">(</span><em class="sig-param">sim_property</em>, <em class="sig-param">plotter=None</em>, <em class="sig-param">dt=0.5</em>, <em class="sig-param">t=None</em>, <em class="sig-param">update_scale=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.plot_rt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -277,6 +287,11 @@ EDIT: Probably not going to happen for a bit</p>
 <code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.stop" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="pyfea.fea.simulation.Simulation.update_database">
+<code class="sig-name descname">update_database</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.fea.simulation.Simulation.update_database" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pyfea.fea.simulation.Simulation.assembly">
 <code class="sig-name descname">assembly</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.assembly" title="Permalink to this definition">¶</a></dt>
@@ -285,6 +300,11 @@ EDIT: Probably not going to happen for a bit</p>
 <dl class="attribute">
 <dt id="pyfea.fea.simulation.Simulation.boundary_conditions">
 <code class="sig-name descname">boundary_conditions</code><em class="property"> = {}</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.boundary_conditions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.data_file">
+<code class="sig-name descname">data_file</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.data_file" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -300,6 +320,11 @@ EDIT: Probably not going to happen for a bit</p>
 <dl class="attribute">
 <dt id="pyfea.fea.simulation.Simulation.running">
 <code class="sig-name descname">running</code><em class="property"> = False</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.running" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyfea.fea.simulation.Simulation.sqlite_engine">
+<code class="sig-name descname">sqlite_engine</code><em class="property"> = None</em><a class="headerlink" href="#pyfea.fea.simulation.Simulation.sqlite_engine" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

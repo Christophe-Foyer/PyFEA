@@ -189,12 +189,12 @@
 <p>Interface for gmsh.</p>
 <dl class="class">
 <dt id="pyfea.interfaces.meshing.gmsh_interface">
-<em class="property">class </em><code class="sig-prename descclassname">pyfea.interfaces.meshing.</code><code class="sig-name descname">gmsh_interface</code><span class="sig-paren">(</span><em class="sig-param">name='test'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyfea.interfaces.meshing.</code><code class="sig-name descname">gmsh_interface</code><span class="sig-paren">(</span><em class="sig-param">name='pyfea'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Interface for gmsh. Lets the user create 3d meshes of ‘.stl’ files.</p>
 <p>Note: Support for step files and assemblies may come in  the future.</p>
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">name='test'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">name='pyfea'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes the gmsh instance.</p>
 </dd></dl>
 
@@ -205,10 +205,21 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="pyfea.interfaces.meshing.gmsh_interface.extract_assembly_geometry">
+<code class="sig-name descname">extract_assembly_geometry</code><span class="sig-paren">(</span><em class="sig-param">entities=[(3, 1)]</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.extract_assembly_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the geometry from gmsh and returns it in pyfea format.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.extract_geometry">
 <code class="sig-name descname">extract_geometry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.extract_geometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts the geometry from gmsh and returns it in pyfea format.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="pyfea.interfaces.meshing.gmsh_interface.gen_mesh_from_assembly">
+<code class="sig-name descname">gen_mesh_from_assembly</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.gen_mesh_from_assembly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.gen_mesh_from_cad">
@@ -220,6 +231,12 @@
 <dt id="pyfea.interfaces.meshing.gmsh_interface.gen_mesh_from_surf">
 <code class="sig-name descname">gen_mesh_from_surf</code><span class="sig-paren">(</span><em class="sig-param">input_geo</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.gen_mesh_from_surf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a mesh from a surface mesh or file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyfea.interfaces.meshing.gmsh_interface.get_face_neighbors">
+<code class="sig-name descname">get_face_neighbors</code><span class="sig-paren">(</span><em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.get_face_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://gitlab.onelab.info/gmsh/gmsh/blob/master/demos/api/neighbors.py">https://gitlab.onelab.info/gmsh/gmsh/blob/master/demos/api/neighbors.py</a></p>
 </dd></dl>
 
 <dl class="method">
@@ -236,7 +253,7 @@
 
 <dl class="attribute">
 <dt id="pyfea.interfaces.meshing.gmsh_interface.filetypes">
-<code class="sig-name descname">filetypes</code><em class="property"> = ['stl']</em><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.filetypes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">filetypes</code><em class="property"> = ['stl', 'step', 'stp']</em><a class="headerlink" href="#pyfea.interfaces.meshing.gmsh_interface.filetypes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

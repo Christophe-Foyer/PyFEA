@@ -5,8 +5,9 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D; _ = Axes3D #hide spyder warning msg
 import numpy as np
+import pyvista as pv
 
-def scatter3d(points):
+def scatter3d_mpl(points):
     # plot the surface
     plt3d = plt.figure().gca(projection='3d')
     ax = plt.gca()
@@ -43,3 +44,10 @@ def scatter3d(points):
         plt.tight_layout()
         
     set_axes_equal(ax)
+
+def scatter3d(points):
+    p = pv.BackgroundPlotter()
+    point_cloud = pv.PolyData(points)
+    p.add_mesh(point_cloud)
+    p.enable_eye_dome_lighting()
+    p.show(window_size=[1024, 768])

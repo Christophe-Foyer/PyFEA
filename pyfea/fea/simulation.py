@@ -25,6 +25,9 @@ import time
 
 import matplotlib.pyplot as plt
 
+import pyfea.interfaces.restful as rful
+from sqlalchemy import create_engine
+
 # %% Simulation
 
 class Simulation():
@@ -33,13 +36,16 @@ class Simulation():
     physics modules.
     """
     
-    assembly = None
+    assembly            = None
     boundary_conditions = {}
-    parameters = {}
-    physics_effects = []
-    running = False
+    parameters          = {}
+    physics_effects     = []
+    running             = False
+    data_file           = None
+    sqlite_engine       = None
     
-    def __init__(self, assembly, physics_effects = [], webserver=False):
+    def __init__(self, assembly, physics_effects = [],
+                 webserver=False, sim_poll_freq=1):
         self.assembly = assembly
         self.physics_effects = self.physics_effects + physics_effects
         
@@ -51,25 +57,56 @@ class Simulation():
         for effect in self.physics_effects:
             effect.define_variables(self)
             
-        if webserver==True:
+        import tempfile
+        self.data_file = tempfile.TemporaryFile(suffix='.db').name
+        #should handle opening stuff here
+
+        #RESTful server
+        self.update_database()
+        engine = create_engine('sqlite:///'+self.data_file)
+        
+        rful.api.add_resource(rful.Sim_Data, '/sim_data')
+        rful.api.add_resource(rful.Assembly_Data, '/assembly_data')
+        rful.api.add_resource(rful.Part_Data, '/part_data')
+        
+        address, self.restful_thread = rful.run(engine)
+        
+        threading.Thread(target=self._poll_data, 
+                         args = (self, sim_poll_freq))
+        
+        if webserver:
             #it autolunches itself, maybe I should explicitly ask it to
             import pyfea.tools.webserver
             #this is not very useful but eh, maybe can kill it
-            self.webserver = pyfea.tools.webserver
-            
-            #this is not a beautiful fix, but eh
+            import subprocess
             import atexit
+            import psutil
+            
+            print("Starting webserver")
+            print(__file__)
+            
+            args = ["python", pyfea.tools.webserver.__file__, self.data_file]
+            process = subprocess.Popen(args, shell=True, 
+                                       creationflags=subprocess.CREATE_NEW_CONSOLE)
+            
             def cleanup():
-                sim.webserver.kill(sim.webserver.process.pid)
+                print("Cleaning up webserver...")
+                p = psutil.Process(process.pid)
+                for proc in p.children(recursive=True):
+                    proc.kill()
+                p.kill()
+            
             atexit.register(cleanup)
-        
+            
+            
     def set_boundary_conditions(self, **kwargs):
         for name, value in kwargs.items():
             self.boundary_conditions[name]=value
             
     def run(self, dt=None, t=None):
         
-        excluded_attr = ['webserver']
+        #TODO: Find a better way?
+        excluded_attr = ['webserver', 'sqlite_engine', 'restful_thread']
         
         attributes = inspect.getmembers(self, lambda a:not(inspect.isroutine(a)))
         attributes = {a[0]:a[1] for a in attributes 
@@ -106,6 +143,37 @@ class Simulation():
         out_q = Queue()
         
         self._run_sim(in_q, out_q, attributes)
+        
+    def update_database(self):
+        
+        filename = self.data_file
+        
+        if not self.sqlite_engine:
+            self.sqlite_engine = create_engine('sqlite:///'+filename)
+        engine = self.sqlite_engine
+        
+        assembly_data = {
+                'assembly':[self.assembly.source_file],
+                'tets':[self.assembly.tets],
+                'nodes':[self.assembly.nodes]
+                }
+        assembly_data = pd.DataFrame(assembly_data)
+        
+        part_data = {
+                'part':[part.name for part in self.assembly.parts],
+                'tets':[part.tets for part in self.assembly.parts],
+                'nodes':[part.nodes for part in self.assembly.parts]
+                }
+        part_data = pd.DataFrame(part_data)
+        
+        sim_data = self.variables
+        
+        assembly_data.to_sql('assembly_data', engine, if_exists='replace')
+        sim_data.to_sql('sim_data', engine, if_exists='replace')
+        part_data.to_sql('part_data', engine, if_exists='replace')
+        
+#        with open(self.data_file, 'wb') as f:
+#            pickle.dump(data, f)
     
     def plot(self, sim_property, plotter = None,
              parts=None, cmap = None, **kwargs):
@@ -135,7 +203,8 @@ class Simulation():
         return plotter
     
     def plot_rt(self, sim_property, plotter=None,
-                dt = 0.5, t=20, **kwargs):
+                dt = 0.5, t=None, update_scale=True,
+                **kwargs):
         
         var = self.getvar(sim_property).to_numpy()
         
@@ -168,11 +237,11 @@ class Simulation():
         def update(sim):
             t_c = 0
             
-            while t_c < t:
-                
+            while not t or t_c < t:
                 var = sim.getvar(sim_property).to_numpy()
                 grid.cell_arrays[sim_property]=var
-                
+                if update_scale:
+                    plotter.update_scalar_bar_range([var.min(), var.max()])
                 #this is not some critical task, good enough
                 t_c = t_c + dt
                 time.sleep(dt)
@@ -312,7 +381,6 @@ class Simulation():
         return self.sim_output.get()
     
     def getvar(self, variable):
-        assert self.running, 'Not running.'
         assert type(variable) == str
         assert len(variable) > 0
         
@@ -373,9 +441,14 @@ class Simulation():
                         q_out.put('Something went wrong...')
                 
             #TODO: I don't like this being the main loop
-            simspace.calculate()   
+            simspace.calculate()
             
-    
+    @staticmethod
+    def _poll_data(sim, freq):
+        while True:
+            sim.update_database()
+            #TODO: find a way to make it exact?
+            time.sleep(freq)
         
 # %% Physics
         
@@ -467,18 +540,12 @@ class Thermal_Conduction(Physics_Effect_Base):
         dt = tf.constant(dt, dtype=tf.float64)
         c = tf.constant(0.1, dtype=tf.float64)
         
-#        print(type(T), type(T_neighbors), type(dt), "\n")
-        
         T_n_means = tf.math.reduce_mean(T_n, axis=1)
         
         T_out = T-dt*(T-T_n_means)*c
         
-#        print(T[0])
-        
         self.simulation.variables['T'] = T_out.numpy()
         
-#T = np.split(self.simulation.variables['T'][assembly._adjacent_flat], assembly._adjacent_cell_starts[1:])
-    
 class Stress_Strain(Physics_Effect_Base):
     """
     Attempts a structural model of the assembly
@@ -502,12 +569,6 @@ class Stress_Strain(Physics_Effect_Base):
         """
         
         pass
-    
-#    @classmethod
-#    def define_variables(cls, simulation):
-#        super(Stress_Strain, self).define_variables(simulation)
-#        
-#        simulation.variables['E'] = 
         
     
 # %% Testing
@@ -541,7 +602,7 @@ if __name__ == '__main__':
     
     sim.run()
     
-    sim.plot_rt('T', t=20)
+    sim.plot_rt('T')
     
 #    sim.plot_gif('T', 'out.gif')
     
