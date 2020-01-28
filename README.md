@@ -2,7 +2,7 @@
 
 Christophe Foyer 2019 | [www.cfoyer.com](https://www.cfoyer.com)
 
-__Note:__ PyFEA is currently in the early stages of development ~and will evolve significantly over the course of the next few months.~ This project is currently on hold, but in its current state it is nearly usable and if there is interest I may consider resuming development.
+__Note:__ PyFEA is currently in the early stages of development ~and will evolve significantly over the course of the next few months.~ This project is currently on hold, but in its current state it is nearly usable (for finite difference at least) and if there is interest I may consider resuming development.
 
 ## About
 PyFEA is built to be an extendable suite for FE analysis in python, as this is a work in progress, no real documentation is currently provided but examples will be added to the examples folder as they are created. 
